@@ -50,6 +50,18 @@ function ElevationScroll(props) {
           marginLeft: "50px",
           marginRight: "25px",
           height: "45px",
+      },
+      menu: {
+          backgroundColor: theme.palette.common.blue,
+          color: "white",
+          borderRadius: "0px"
+      },
+      menuItem: {
+          ...theme.typography.tab,
+          opacity: 0.7,
+          "&:hover": {
+              opacity: 1
+          }
       }
   }))
 
@@ -59,6 +71,7 @@ const Header = (props) => {
     const [value, setValue] = useState(0)
     const [anchorEl, setAnchorEl ] = useState(null);
     const [ open, setOpen ] = useState(false)
+    const [ selectedIndex, setSelectedIndex ] = useState()
 
     const handleChange = (e, value ) => {
         setValue(value)
@@ -73,6 +86,13 @@ const Header = (props) => {
         setAnchorEl(null)
         setOpen(false)
     }
+
+    const menuOptions = [
+        {name: "Services", link:"/services"},
+        {name: "Custom Software Developments", link:"/customSoftware"},
+        {name: "Mobile App Development", link:"/mobileApps"},
+        {name: "Website Developments", link:"/websites"},
+    ]
 
     useEffect(()=>{
         if(window.location.pathname === "/" && value !== 0){
@@ -135,26 +155,39 @@ const Header = (props) => {
                         anchorEl={anchorEl}
                         open={open}
                         onClose={handleClose}
+                        classes={{paper: classes.menu}}
                         MenuListProps={{onMouseLeave: handleClose}}
+                        elevation={0}
                     >
                         <MenuItem 
-                            onClick={handleClose}
+                            onClick={()=> {handleClose(); setValue(1)}}
+                            component={Link}
+                            to="/services"
+                            classes={{root: classes.menuItem}}
+                            > 
+                            Services
+                        </MenuItem>
+                        <MenuItem 
+                            onClick={()=> {handleClose(); setValue(1)}}
                             component={Link}
                             to="/customSoftware"
+                            classes={{root: classes.menuItem}}
                             > 
                             Custom Software Development
                         </MenuItem>
                         <MenuItem 
-                            onClick={handleClose}
+                            onClick={()=> {handleClose(); setValue(1)}}
                             component={Link}
                             to="/mobileApps"
+                            classes={{root: classes.menuItem}}
                             > 
                             Mobile App Development
                         </MenuItem>
                         <MenuItem 
-                            onClick={handleClose}
+                            onClick={()=> {handleClose(); setValue(1)}}
                             component={Link}
                             to="/websites"
+                            classes={{root: classes.menuItem}}
                         > 
                             Website Development
                         </MenuItem>
