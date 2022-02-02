@@ -6,8 +6,8 @@ const arcOrange = "#FFBA60"
 export default createTheme({
     palette:{
         common: {
-            arcBlue: `${arcBlue}`,
-            arcOrange: `${arcOrange}`
+            blue: `${arcBlue}`,
+            orange: `${arcOrange}`
         },
         primary:{
             main: `${arcBlue}`,
@@ -22,6 +22,7 @@ export default createTheme({
             textTransform: "none",
             fontWeight: '700',
             fontSize: '1rem',
+            color: "white"
         },
         estimate: {
             fontFamily: "Pacifico",

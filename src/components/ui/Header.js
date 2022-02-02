@@ -67,9 +67,10 @@ function ElevationScroll(props) {
 
 
 const Header = (props) => {
+    // const theme = useTheme();
     const classes = useStyles();
     const [value, setValue] = useState(0)
-    const [anchorEl, setAnchorEl ] = useState(null);
+    const [ anchorEl, setAnchorEl ] = useState(null);
     const [ open, setOpen ] = useState(false)
     const [ selectedIndex, setSelectedIndex ] = useState()
 
@@ -80,6 +81,12 @@ const Header = (props) => {
     const handleClick = (e) => {
         setAnchorEl(e.currentTrigger)
         setOpen(true)
+    }
+
+    const handleMenuItemClick = (e, i ) => {
+        setAnchorEl(null)
+        setOpen(false)
+        setSelectedIndex(i)
     }
 
     const handleClose = (e) => {
@@ -95,8 +102,58 @@ const Header = (props) => {
     ]
 
     useEffect(()=>{
-        if(window.location.pathname === "/" && value !== 0){
-            setValue(0)
+        switch(window.location.pathname){
+            case "/":
+                if(value !== 0){
+                    setValue(0)
+                }
+                break;
+            case "/services":
+                if(value !== 1){
+                    setValue(1)
+                    setSelectedIndex(0);
+                }
+                break;
+            case "/customsoftware":
+                if(value !== 1){
+                    setValue(2)
+                    setSelectedIndex(1)
+                }
+                break;
+            case "/mobileapps":
+                if(value !== 1){
+                    setValue(1)
+                    setSelectedIndex(2);
+                }
+                break;
+            case "/websites":
+                if(value !== 1){
+                    setValue(1)
+                    setSelectedIndex(3);
+                }
+                break;
+            case "/revolution":
+                if(value !== 2){
+                    setValue(2)
+                }
+                break;
+            case "/about":
+                if(value !== 3){
+                    setValue(3)
+                }
+                break;
+            case "/contact":
+                if(value !== 4){
+                    setValue(4)
+                }
+                break;
+            case "/estimate":
+                if(value !== 5){
+                    setValue(5)
+                }
+                break;
+            default:
+                break;
         }
     }, [value])
 
@@ -155,42 +212,23 @@ const Header = (props) => {
                         anchorEl={anchorEl}
                         open={open}
                         onClose={handleClose}
-                        classes={{paper: classes.menu}}
+                        classes={{ paper: classes.menu }}
                         MenuListProps={{onMouseLeave: handleClose}}
                         elevation={0}
+                        keepMounted
                     >
-                        <MenuItem 
-                            onClick={()=> {handleClose(); setValue(1)}}
-                            component={Link}
-                            to="/services"
-                            classes={{root: classes.menuItem}}
-                            > 
-                            Services
-                        </MenuItem>
-                        <MenuItem 
-                            onClick={()=> {handleClose(); setValue(1)}}
-                            component={Link}
-                            to="/customSoftware"
-                            classes={{root: classes.menuItem}}
-                            > 
-                            Custom Software Development
-                        </MenuItem>
-                        <MenuItem 
-                            onClick={()=> {handleClose(); setValue(1)}}
-                            component={Link}
-                            to="/mobileApps"
-                            classes={{root: classes.menuItem}}
-                            > 
-                            Mobile App Development
-                        </MenuItem>
-                        <MenuItem 
-                            onClick={()=> {handleClose(); setValue(1)}}
-                            component={Link}
-                            to="/websites"
-                            classes={{root: classes.menuItem}}
-                        > 
-                            Website Development
-                        </MenuItem>
+                        {menuOptions.map((option,index) => (
+                            <MenuItem
+                                component={Link}
+                                to={option.link}
+                                key={index}
+                                classes={{root: classes.menuItem}}
+                                onClick={(e)=>{handleMenuItemClick(e,index); setValue(1); handleClose()}}
+                                selected={index === selectedIndex && value === 1}
+                            >
+                               {option.name} 
+                            </MenuItem>
+                        ))}
                      </Menu>
                 </Toolbar>
             </AppBar>
