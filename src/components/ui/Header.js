@@ -4,9 +4,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import {Tabs, Tab, Button, Menu, MenuItem } from '@material-ui/core'
 import { Link } from 'react-router-dom'
-
 import logo from '../../assets/logo.svg'
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
+
 
 function ElevationScroll(props) {
     const { children } = props;
@@ -25,10 +25,22 @@ function ElevationScroll(props) {
   const useStyles = makeStyles(theme => ({
       toolbarMargin: {
           ...theme.mixins.toolbar,
-          marginBottom: "3em"
+          marginBottom: "3em",
+          [theme.breakpoints.down("md")]: {
+            marginBottom: "2em"
+        },
+        [theme.breakpoints.down("xs")]: {
+            marginBottom: "1.25em"
+        }
       },
       logo:{
-          height: "8em"
+          height: "8em",
+          [theme.breakpoints.down("md")]: {
+              height: "7em"
+          },
+          [theme.breakpoints.down("xs")]: {
+              height: "5.5em"
+          }
       },
       logoContainer:{
         padding: "0",
@@ -67,7 +79,8 @@ function ElevationScroll(props) {
 
 
 const Header = (props) => {
-    // const theme = useTheme();
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.down("md"))
     const classes = useStyles();
     const [value, setValue] = useState(0)
     const [ anchorEl, setAnchorEl ] = useState(null);
@@ -157,15 +170,9 @@ const Header = (props) => {
         }
     }, [value])
 
-    return (
+    const tabs = (
         <React.Fragment>
-        <ElevationScroll>
-            <AppBar position="fixed">
-                <Toolbar disableGutters>
-                    <Button className={classes.logoContainer} onClick={()=>setValue(0)} component={Link} to="/">
-                    <img src={logo} className={classes.logo} alt="company logo"/>
-                    </Button>
-                    <Tabs value={value} 
+            <Tabs value={value} 
                     className={classes.tabContainer} 
                     onChange={handleChange}
                     indicatorColor="primary"
@@ -230,10 +237,22 @@ const Header = (props) => {
                             </MenuItem>
                         ))}
                      </Menu>
-                </Toolbar>
-            </AppBar>
-        </ElevationScroll>
-        <div className={classes.toolbarMargin}/>
+        </React.Fragment>
+    )
+
+    return (
+        <React.Fragment>
+            <ElevationScroll>
+                <AppBar position="fixed">
+                    <Toolbar disableGutters>
+                        <Button className={classes.logoContainer} onClick={()=>setValue(0)} component={Link} to="/">
+                        <img src={logo} className={classes.logo} alt="company logo"/>
+                        </Button>
+                        { matches ? null : tabs }
+                    </Toolbar>
+                </AppBar>
+            </ElevationScroll>
+            <div className={classes.toolbarMargin}/>
         </React.Fragment>
     )
 }
