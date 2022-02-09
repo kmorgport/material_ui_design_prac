@@ -63,6 +63,9 @@ function ElevationScroll(props) {
           marginLeft: "50px",
           marginRight: "25px",
           height: "45px",
+          "&:hover": {
+            backgroundColor: theme.palette.secondary.light
+          }
       },
       menu: {
           backgroundColor: theme.palette.common.blue,
@@ -98,7 +101,12 @@ function ElevationScroll(props) {
           backgroundColor: theme.palette.common.orange
       },
       drawerItemSelected:{
-          opacity: 1
+          "& .MuiListItemText-root": {
+                opacity: 1
+          }
+      },
+      appBar:{
+          zIndex: theme.zIndex.modal + 1
       }
   }))
 
@@ -183,13 +191,14 @@ const Header = (props) => {
                     >
                         {routes.map((route, i) =>(
                             <Tab
+                                key={`${route}${i}`}
                                 className={classes.tab}
                                 component={Link}
                                 to={route.link}
                                 label={route.name}
                                 aria-owns={route.ariaOwns}
                                 aria-haspopup={route.ariaPopup}
-                                mouseOver={route.mouseOver}
+                                onMouseOver={route.mouseOver}
                             />
                         ))}
                     </Tabs>
@@ -204,13 +213,14 @@ const Header = (props) => {
                         classes={{ paper: classes.menu }}
                         MenuListProps={{onMouseLeave: handleClose}}
                         elevation={0}
+                        style={{zIndex: 1302}}
                         keepMounted
                     >
                         {menuOptions.map((option,index) => (
                             <MenuItem
                                 component={Link}
                                 to={option.link}
-                                key={index}
+                                key={`${option}${index}`}
                                 classes={{root: classes.menuItem}}
                                 onClick={(e)=>{handleMenuItemClick(e,index); setValue(1); handleClose()}}
                                 selected={index === selectedIndex && value === 1}
@@ -231,90 +241,31 @@ const Header = (props) => {
             onOpen= {()=>setOpenDrawer(true)}
             classes={{paper: classes.drawer}}
             >
+                <div className={classes.toolbarMargin}>
                 <List disablePadding>
-                    <ListItem 
-                        onClick={()=>{setOpenDrawer(false); setValue(0)}} 
-                        divider 
-                        button 
-                        component={Link} 
-                        to="/"
-                        selected={value === 0}
-                    >
-                        <ListItemText 
-                            disableTypography 
-                            className={value === 0 ? [classes.drawerItem, classes.drawerItemSelected] :
-                                classes.drawerItem}
+                    {routes.map( route =>(
+                        <ListItem
+                            key={`${route}${route.activeIndex}`}
+                            onClick={()=>{setOpenDrawer(false); setValue(route.activeIndex)}} 
+                            divider
+                            button
+                            classes={{selected: classes.drawerItemSelected}}
+                            component={Link}
+                            to={route.link}
+                            selected={value === route.activeIndex}
                         >
-                            Home
-                        </ListItemText>
-                    </ListItem>
-                    <ListItem 
-                        onClick={()=>{setOpenDrawer(false); setValue(1)}} 
-                        divider 
-                        button 
-                        component={Link} 
-                        to="/services"
-                        selected={value === 1}
-                    >
-                        <ListItemText 
-                            disableTypography 
-                            className={value === 1 ? [classes.drawerItem, classes.drawerItemSelected] :
-                                classes.drawerItem}
-                        >
-                            Services
-                        </ListItemText>
-                    </ListItem>
-                    <ListItem 
-                        onClick={()=>{setOpenDrawer(false); setValue(2)}} 
-                        divider 
-                        button 
-                        component={Link} 
-                        to="/revolution"
-                        selected={value === 2}
-                    >
-                        <ListItemText 
-                            disableTypography 
-                            className={value === 2 ? [classes.drawerItem, classes.drawerItemSelected] :
-                                classes.drawerItem}
-                        >
-                            The Revolution
-                        </ListItemText>
-                    </ListItem>
-                    <ListItem 
-                        onClick={()=>{setOpenDrawer(false); setValue(3)}}  
-                        divider 
-                        button 
-                        component={Link} 
-                        to="/about"
-                        selected={value === 3}
-                    >
-                        <ListItemText 
-                            disableTypography 
-                            className={value === 3 ? [classes.drawerItem, classes.drawerItemSelected] :
-                                classes.drawerItem}
-                        >
-                            About Us
-                        </ListItemText>
-                    </ListItem>
-                    <ListItem 
-                        onClick={()=>{setOpenDrawer(false); setValue(4)}}  
-                        divider 
-                        button 
-                        component={Link} 
-                        to="/contact"
-                        selected={value === 4}
-                    >
-                        <ListItemText 
-                            disableTypography 
-                            className={value === 4 ? [classes.drawerItem, classes.drawerItemSelected] :
-                                classes.drawerItem}
-                        >
-                            Contact Us
-                        </ListItemText>
-                    </ListItem>
+                            <ListItemText 
+                                disableTypography
+                                className={value === route.activeIndex ? [classes.drawerItem, classes.drawerItemSelected] :
+                                    classes.drawerItem}
+                            >
+                                {route.name}
+                            </ListItemText>
+                        </ListItem>
+                    ))}
                     <ListItem 
                         onClick={()=>{setOpenDrawer(false); setValue(5)}}  
-                        className={classes.drawerItemEstimate} 
+                        className={{root: classes.drawerItemEstimate, selected: classes.drawerItemSelected}}
                         divider 
                         button 
                         component={Link} 
@@ -323,13 +274,13 @@ const Header = (props) => {
                     >
                         <ListItemText 
                             disableTypography 
-                            className={value === 5 ? [classes.drawerItem, classes.drawerItemSelected] :
-                                classes.drawerItem}
+                            className={classes.drawerItem}
                         >
                             Free Estimate
                         </ListItemText>
                     </ListItem>
                 </List>
+            </div>
             </SwipeableDrawer>
             <IconButton 
                 className={classes.drawerIconContainer}
