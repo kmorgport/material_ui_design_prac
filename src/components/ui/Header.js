@@ -111,18 +111,16 @@ function ElevationScroll(props) {
   }))
 
 
-const Header = (props) => {
+const Header = ({value, setValue, selectedIndex, setSelectedIndex}) => {
     const theme = useTheme();
     // const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
     const iOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent); 
     const matches = useMediaQuery(theme.breakpoints.down("md"))
     const classes = useStyles();
-    const [value, setValue] = useState(0)
 
     const [openDrawer, setOpenDrawer] = useState(false);
     const [ anchorEl, setAnchorEl ] = useState(null);
     const [ openMenu, setOpenMenu ] = useState(false)
-    const [ selectedIndex, setSelectedIndex ] = useState()
 
     const handleChange = (e, newValue ) => {
         setValue(newValue)
