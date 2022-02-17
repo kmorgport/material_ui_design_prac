@@ -4,28 +4,26 @@ import { makeStyles } from '@material-ui/core';
 import { Grid, Button, Typography } from '@material-ui/core';
 import ButtonArrow from '../components/ui/ButtonArrow'
 
-// import animationData from '../animations/landinganimation/data'
+import animationData from '../animations/landinganimation/data'
 
 const useStyles = makeStyles( theme => ({
 
 }))
 
 const LandingPage  = () => {
-    const classes = useStyles();
+    // const classes = useStyles();
 
     const defaultOptions = {
-
         loop: true,
-        autoplay: true,
+        autoplay: false,
         animationData: animationData,
         rendererSettings: {
-            preserveAspectRation: 'xMidYMid slice'
+          preserveAspectRatio: "xMidYMid slice"
         }
-    }
+      };
 
     return (
         <Grid container direction="column">
-            <Lottie options={defaultOptions} height={"100%"} width={"100%"} />
             <Grid item>
                 <Grid container justify="flex-end" alignItems="center" direction="row">
                     <Grid sm item >
@@ -44,7 +42,11 @@ const LandingPage  = () => {
                         </Grid>
                     </Grid>
                     <Grid sm item>
-                        <Lottie></Lottie>
+                        <Lottie 
+                            options={defaultOptions} 
+                            height={"100%"} 
+                            width={"100%"}
+                        />
                     </Grid>
                 </Grid>
             </Grid>
