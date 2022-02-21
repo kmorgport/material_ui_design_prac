@@ -5,6 +5,7 @@ import { Grid, Button, Typography } from '@material-ui/core';
 import ButtonArrow from '../components/ui/ButtonArrow'
 
 import animationData from '../animations/landinganimation/data'
+import customSoftwareIcon from '../assets/Custom Software Icon.svg'
 
 const useStyles = makeStyles( theme => ({
         animation: {
@@ -31,16 +32,16 @@ const useStyles = makeStyles( theme => ({
             marginTop: "1em",
         },
         learnButtonHero: {
-            borderColor: theme.palette.common.blue,
-            color: theme.palette.common.blue,
-            borderWidth: 2,
-            textTransform: "none",
-            borderRadius: 50,
-            fontFamily: "Roboto",
-            fontWeight: "bold",
+            ...theme.typography.learnButton,
             fontSize: "0.9rem",
             height: 45,
             width: 145
+        },
+        learnButton: {
+            ...theme.typography.learnButton,
+            fontSize: "0.7rem",
+            height: 35,
+            padding: 5
         },
         mainContainer: {
             marginTop: "5em",
@@ -55,6 +56,19 @@ const useStyles = makeStyles( theme => ({
             minWidth: "21.5em",
             marginLeft: "1em",
             [theme.breakpoints.down("xs")]:{
+                marginLeft: 0
+            }
+        },
+        specialTest: {
+            fontFamily: "Pacifico",
+            color: theme.palette.common.orange
+        },
+        subtitle: {
+            marginBottom: "1em"
+        },
+        icon: {
+            marginLeft: "2em",
+            [theme.breakpoints.down("xs")]: {
                 marginLeft: 0
             }
         }
@@ -107,12 +121,21 @@ const LandingPage  = () => {
                         <Typography variant="h4">
                             Custom Software Development
                         </Typography>
-                        <Typography variant="subtitle1">
+                        <Typography variant="subtitle1" className={classes.subtitle}>
                             Save Energy. Save Time. Save Money.
                         </Typography>
                         <Typography variant="subtitle1">
-                            Complete Digital Solutions, from investigation to{" "} <span>celebration</span>
+                            Complete Digital Solutions, from investigation to{" "} 
+                            <span className={classes.specialTest}>celebration</span>
                         </Typography>
+                        <Button variant="outlined" className={classes.learnButton}>
+                            <span style={{ marginRight: 10}}>Learn More</span>
+                            <ButtonArrow width={10} height={10}
+                                fill={theme.palette.common.blue}/>
+                        </Button>
+                    </Grid>
+                    <Grid item>
+                        <img className={classes.icon} alt="custom software icon" src={customSoftwareIcon} />
                     </Grid>
                 </Grid>
             </Grid>
