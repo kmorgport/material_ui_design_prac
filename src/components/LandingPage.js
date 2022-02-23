@@ -5,6 +5,8 @@ import { Grid, Button, Typography, Card, CardContent } from '@material-ui/core';
 import { useMediaQuery } from '@material-ui/core';
 import ButtonArrow from '../components/ui/ButtonArrow'
 
+import CallToAction from './ui/CallToAction'
+
 import animationData from '../animations/landinganimation/data'
 import customSoftwareIcon from '../assets/Custom Software Icon.svg'
 import mobileAppIcon from '../assets/mobileIcon.svg'
@@ -326,6 +328,10 @@ const LandingPage  = () => {
                     </Grid>
                     <div className={classes.infoBackground}/>
                 </Grid>
+            </Grid>
+            <Grid item>
+                {/*---Call-To-Action Block---*/}
+                <CallToAction/>
             </Grid>
         </Grid>
     )
