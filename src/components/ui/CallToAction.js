@@ -2,7 +2,7 @@ import React from 'react';
 import {Grid, Typography, Button } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import ButtonArrow from './ButtonArrow';
-
+import {Link } from 'react-router-dom'
 import { useMediaQuery } from '@material-ui/core';
 import background from '../../assets/background.jpg'
 import mobileBackground from '../../assets/mobileBackground.jpg'
@@ -73,6 +73,8 @@ const CallToAction = () => {
                         </Typography>
                         <Grid container item justify={matchesSM ? "center" : undefined} >
                             <Button 
+                                component={Link}
+                                to="/estimate"
                                 variant="outlined" 
                                 style={{color: "white", borderColor: "white"}}
                                 className={classes.learnButton}

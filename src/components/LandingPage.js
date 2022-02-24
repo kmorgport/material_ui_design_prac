@@ -4,7 +4,7 @@ import { makeStyles, useTheme } from '@material-ui/core';
 import { Grid, Button, Typography, Card, CardContent } from '@material-ui/core';
 import { useMediaQuery } from '@material-ui/core';
 import ButtonArrow from '../components/ui/ButtonArrow'
-
+import { Link } from 'react-router-dom'
 import CallToAction from './ui/CallToAction'
 
 import animationData from '../animations/landinganimation/data'
@@ -143,10 +143,22 @@ const LandingPage  = () => {
                         <Typography variant="h2" align="center">Bringing West Coast Technology to the Midwest</Typography>
                         <Grid container justify="center" className={classes.buttonContainer}>
                             <Grid item>
-                                <Button className={classes.estimateButton} variant="container">Free Estimate</Button>
+                                <Button 
+                                    component={Link}
+                                    to="/estimate"
+                                    className={classes.estimateButton} 
+                                    variant="container"
+                                >
+                                    Free Estimate
+                                </Button>
                             </Grid>
                             <Grid item>
-                                <Button variant="outlined" className={classes.learnButtonHero}>
+                                <Button 
+                                    variant="outlined" 
+                                    component={Link}
+                                    to="/revolution"
+                                    className={classes.learnButtonHero}
+                                >
                                     <span style={{ marginRight: 10}}>Learn More</span>
                                     <ButtonArrow width={15} height={15} fill={theme.palette.common.blue}/>
 
@@ -180,7 +192,12 @@ const LandingPage  = () => {
                             Complete Digital Solutions, from investigation to{" "} 
                             <span className={classes.specialTest}>celebration</span>
                         </Typography>
-                        <Button variant="outlined" className={classes.learnButton}>
+                        <Button
+                            variant="outlined" 
+                            className={classes.learnButton}
+                            component={Link}
+                            to="/customsoftware"
+                        >
                             <span style={{ marginRight: 10}}>Learn More</span>
                             <ButtonArrow width={10} height={10}
                                 fill={theme.palette.common.blue}/>
@@ -212,7 +229,12 @@ const LandingPage  = () => {
                             Integrate your web experience or create a standalone app
                             { matchesSM ? null : <br/> }with either mobile platform
                         </Typography>
-                        <Button variant="outlined" className={classes.learnButton}>
+                        <Button 
+                            variant="outlined" 
+                            component={Link}
+                            to="/mobileapps"
+                            className={classes.learnButton}
+                        >
                             <span style={{ marginRight: 10}}>Learn More</span>
                             <ButtonArrow width={10} height={10}
                                 fill={theme.palette.common.blue}/>
@@ -242,7 +264,12 @@ const LandingPage  = () => {
                         <Typography variant="subtitle1">
                             Optimized for Search Engines, built for speed.
                         </Typography>
-                        <Button variant="outlined" className={classes.learnButton}>
+                        <Button 
+                            variant="outlined" 
+                            className={classes.learnButton}
+                            component={Link}
+                            to="/websites"
+                        >
                             <span style={{ marginRight: 10}}>Learn More</span>
                             <ButtonArrow width={10} height={10}
                                 fill={theme.palette.common.blue}/>
@@ -273,7 +300,12 @@ const LandingPage  = () => {
                                         Visionary insights coupled with cutting-edge technology is a recipe
                                         for Revolution
                                     </Typography>
-                                    <Button variant="outlined" className={classes.learnButtonHero}>
+                                    <Button 
+                                        variant="outlined" 
+                                        component={Link}
+                                        to="/revolution"
+                                        className={classes.learnButtonHero}
+                                    >
                                         <span style={{ marginRight: 10}}>Learn More</span>
                                         <ButtonArrow width={15} height={15} fill={theme.palette.common.blue}/>
                                     </Button>
@@ -303,7 +335,13 @@ const LandingPage  = () => {
                             <Typography variant="h2" style={{color: "white"}}>About Us</Typography>
                             <Typography variant="subtitle2">Let's get personal</Typography>
                             <Grid item>
-                            <Button variant="outlined" style={{color: "white", borderColor: "white" }} className={classes.learnButtonHero}>
+                            <Button 
+                                variant="outlined" 
+                                style={{color: "white", borderColor: "white" }} 
+                                className={classes.learnButtonHero}
+                                component={Link}
+                                to="/about"
+                            >
                                     <span style={{ marginRight: 10}}>Learn More</span>
                                     <ButtonArrow width={15} height={15} fill="white" />
 
@@ -317,7 +355,13 @@ const LandingPage  = () => {
                             <Typography variant="h2" style={{color: "white"}}>Contact Us</Typography>
                             <Typography variant="subtitle2">Say Hello!<span role="img" aria-label="waving hand">👋🏼</span></Typography>
                             <Grid item>
-                            <Button variant="outlined" style={{color: "white", borderColor: "white" }} className={classes.learnButtonHero}>
+                            <Button 
+                                variant="outlined" 
+                                style={{color: "white", borderColor: "white" }} 
+                                className={classes.learnButtonHero}
+                                component={Link}
+                                to="/contact"
+                            >
                                     <span style={{ marginRight: 10}}>Learn More</span>
                                     <ButtonArrow width={15} height={15} fill="white" />
 
