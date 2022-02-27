@@ -180,7 +180,7 @@ const Header = ({value, setValue, selectedIndex, setSelectedIndex}) => {
                     break
             }
         })
-    }, [value, menuOptions, selectedIndex, routes])
+    }, [value, menuOptions, selectedIndex, routes, setValue, setSelectedIndex])
 
     const tabs = (
         <React.Fragment>

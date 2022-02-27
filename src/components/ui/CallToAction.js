@@ -39,6 +39,9 @@ const useStyles = makeStyles( theme => ({
         fontSize: "1.5rem",
         marginLeft: "2em",
         marginRight: "5em",
+        "&:hover": {
+            backgroundColor: theme.palette.secondary.light
+        },
         [theme.breakpoints.down("sm")]: {
             marginLeft: 0,
             marginRight: 0
@@ -46,7 +49,7 @@ const useStyles = makeStyles( theme => ({
     }
 }))
 
-const CallToAction = () => {
+const CallToAction = ({setValue}) => {
     const classes = useStyles();
     const theme = useTheme();
     const matchesSM = useMediaQuery(theme.breakpoints.down("sm"))
@@ -78,6 +81,7 @@ const CallToAction = () => {
                                 variant="outlined" 
                                 style={{color: "white", borderColor: "white"}}
                                 className={classes.learnButton}
+                                onClick={()=>setValue(2)}
                             >
                                 <span style={{ marginRight: 5}}>Learn More</span>
                                 <ButtonArrow 
@@ -91,7 +95,11 @@ const CallToAction = () => {
                 </Grid>
             </Grid>
             <Grid item>
-                <Button variant="combined" className={classes.estimateButton}>
+                <Button 
+                    variant="combined" 
+                    className={classes.estimateButton}
+                    onClick={()=>setValue(5)}
+                    >
                     Free Estimate
                 </Button>
             </Grid>

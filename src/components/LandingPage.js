@@ -120,7 +120,7 @@ const useStyles = makeStyles( theme => ({
         }
 }))
 
-const LandingPage  = () => {
+const LandingPage  = ({setValue, setSelectedIndex}) => {
     const classes = useStyles();
     const theme = useTheme();
     const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
@@ -148,6 +148,7 @@ const LandingPage  = () => {
                                     to="/estimate"
                                     className={classes.estimateButton} 
                                     variant="container"
+                                    onClick={()=>setValue(5)}
                                 >
                                     Free Estimate
                                 </Button>
@@ -158,6 +159,7 @@ const LandingPage  = () => {
                                     component={Link}
                                     to="/revolution"
                                     className={classes.learnButtonHero}
+                                    onClick={()=>setValue(2)}
                                 >
                                     <span style={{ marginRight: 10}}>Learn More</span>
                                     <ButtonArrow width={15} height={15} fill={theme.palette.common.blue}/>
@@ -197,6 +199,7 @@ const LandingPage  = () => {
                             className={classes.learnButton}
                             component={Link}
                             to="/customsoftware"
+                            onClick={()=>{setValue(1); setSelectedIndex(1)}}
                         >
                             <span style={{ marginRight: 10}}>Learn More</span>
                             <ButtonArrow width={10} height={10}
@@ -234,6 +237,7 @@ const LandingPage  = () => {
                             component={Link}
                             to="/mobileapps"
                             className={classes.learnButton}
+                            onClick={()=>{setValue(1); setSelectedIndex(2)}}
                         >
                             <span style={{ marginRight: 10}}>Learn More</span>
                             <ButtonArrow width={10} height={10}
@@ -269,6 +273,7 @@ const LandingPage  = () => {
                             className={classes.learnButton}
                             component={Link}
                             to="/websites"
+                            onClick={()=>{setValue(1); setSelectedIndex(3)}}
                         >
                             <span style={{ marginRight: 10}}>Learn More</span>
                             <ButtonArrow width={10} height={10}
@@ -305,6 +310,7 @@ const LandingPage  = () => {
                                         component={Link}
                                         to="/revolution"
                                         className={classes.learnButtonHero}
+                                        onClick={()=>setValue(2)}
                                     >
                                         <span style={{ marginRight: 10}}>Learn More</span>
                                         <ButtonArrow width={15} height={15} fill={theme.palette.common.blue}/>
@@ -318,14 +324,19 @@ const LandingPage  = () => {
             </Grid>
             <Grid item>
                 {/*---Information Block---*/}
-                <Grid container style={{ height: "80em" }} alignItems="center" direction="row">
+                <Grid 
+                    container 
+                    style={{ height: "80em" }} 
+                    alignItems="center" 
+                    direction="row"
+                    className={classes.infoBackground}
+                >
                     <Grid 
                         item 
                         container 
-                        style={{position: "absolute", 
+                        style={{
                         textAlign: matchesXS ? "center" : "inherit"}} 
                         direction={matchesXS ? "column" : "row"}
-                        spacing={matchesXS ? 10 : 0 }
                     >
                     <Grid 
                         item 
@@ -341,6 +352,7 @@ const LandingPage  = () => {
                                 className={classes.learnButtonHero}
                                 component={Link}
                                 to="/about"
+                                onClick={()=>setValue(3)}
                             >
                                     <span style={{ marginRight: 10}}>Learn More</span>
                                     <ButtonArrow width={15} height={15} fill="white" />
@@ -351,7 +363,11 @@ const LandingPage  = () => {
                     </Grid>
                     <Grid item style={{marginRight: matchesXS ? 0: matchesSM ? "2em" : "5em", 
                         textAlign: matchesXS ? "center" : "right"}} sm>
-                        <Grid container direction="column">
+                        <Grid 
+                            container 
+                            direction="column"
+                            style={{marginBottom: matchesXS? "10em" : 0 }}
+                        >
                             <Typography variant="h2" style={{color: "white"}}>Contact Us</Typography>
                             <Typography variant="subtitle2">Say Hello!<span role="img" aria-label="waving hand">👋🏼</span></Typography>
                             <Grid item>
@@ -361,6 +377,7 @@ const LandingPage  = () => {
                                 className={classes.learnButtonHero}
                                 component={Link}
                                 to="/contact"
+                                onClick={()=>setValue(4)}
                             >
                                     <span style={{ marginRight: 10}}>Learn More</span>
                                     <ButtonArrow width={15} height={15} fill="white" />
@@ -370,12 +387,12 @@ const LandingPage  = () => {
                         </Grid>
                     </Grid>
                     </Grid>
-                    <div className={classes.infoBackground}/>
+                    
                 </Grid>
             </Grid>
             <Grid item>
                 {/*---Call-To-Action Block---*/}
-                <CallToAction/>
+                <CallToAction setValue={setValue}/>
             </Grid>
         </Grid>
     )
