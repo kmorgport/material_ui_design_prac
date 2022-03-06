@@ -11,7 +11,34 @@ import ButtonArrow from '../components/ui/ButtonArrow'
 
 
 const useStyles = makeStyles( theme => ({
-
+    learnButton: {
+        ...theme.typography.learnButton,
+        fontSize: "0.7rem",
+        height: 35,
+        padding: 5,
+        [theme.breakpoints.down("sm")]: {
+            marginBottom: "2em"
+        }
+    },
+    specialTest: {
+        fontFamily: "Pacifico",
+        color: theme.palette.common.orange
+    },
+    subtitle: {
+        marginBottom: "1em"
+    },
+    icon: {
+        marginLeft: "2em",
+        [theme.breakpoints.down("xs")]: {
+            marginLeft: 0
+        }
+    },
+    serviceContainer: {
+        marginTop: "10em",
+        [theme.breakpoints.down("sm")]: {
+            padding: 25
+        }
+    },
 }))
 
 export default Services = ({setValue, setSelectedIndex}) => {
@@ -21,6 +48,68 @@ export default Services = ({setValue, setSelectedIndex}) => {
 
     return (
         <Grid container direction="column">
+            <Grid 
+                item 
+                style={{
+                    marginLeft: matchesSM ? 0 : "5em",
+                    marginTop: matchesSM ? "1em" : "2em"
+                }}
+            >
+                <Typography 
+                    align={matchesSM ? "center" : undefined }
+                    variant="h2" 
+                    gutterBottom
+                    >Services</Typography>
+            </Grid>
+            <Grid item> {/*---iOS/Android Block---*/}
+                <Grid container 
+                    direction="row"  
+                    justify={matchesSM ? "center" : "flex-end" } 
+                    className={classes.serviceContainer}
+                    style={{marginTop: matchesSM ? "1em" : "5em"}}
+                >
+                    <Grid 
+                        item 
+                        style={{ 
+                        textAlign: matchesSM ? "center" : undefined ,
+                        width: marginSM ? undefined : "35em"
+                    }}
+                        >
+                        <Typography variant="h4">
+                            iOS/Android App Development
+                        </Typography>
+                        <Typography variant="subtitle1" className={classes.subtitle}>
+                            Extend Functionality. Extend Access. Increase Engagement
+                        </Typography>
+                        <Typography variant="subtitle1">
+                            Integrate your web experience or create a standalone app
+                            { matchesSM ? null : <br/> }with either mobile platform
+                        </Typography>
+                        <Button 
+                            variant="outlined" 
+                            component={Link}
+                            to="/mobileapps"
+                            className={classes.learnButton}
+                            onClick={()=>{setValue(1); setSelectedIndex(2)}}
+                        >
+                            <span style={{ marginRight: 10}}>Learn More</span>
+                            <ButtonArrow width={10} height={10}
+                                fill={theme.palette.common.blue}/>
+                        </Button>
+                    </Grid>
+                    <Grid 
+                        item
+                        style={{marginRight: matchesSM ? 0 : "5em"}}
+                    >
+                        <img 
+                            className={classes.icon} 
+                            alt="custom software icon"
+                            src={mobileAppIcon} 
+                            width="250em"
+                            />
+                    </Grid>
+                </Grid>
+            </Grid>
             <Grid item> {/*---Custom Software Block---*/}
                 <Grid container 
                     direction="row"  
@@ -51,58 +140,28 @@ export default Services = ({setValue, setSelectedIndex}) => {
                         </Button>
                     </Grid>
                     <Grid item>
-                        <img className={classes.icon} alt="custom software icon" src={customSoftwareIcon} />
-                    </Grid>
-                </Grid>
-            </Grid>
-            <Grid item> {/*---iOS/Android Block---*/}
-                <Grid container 
-                    direction="row"  
-                    justify={matchesSM ? "center" : "flex-end" } 
-                    className={classes.serviceContainer}
-                >
-                    <Grid 
-                        item 
-                        style={{ 
-                        textAlign: matchesSM ? "center" : undefined }}
-                        >
-                        <Typography variant="h4">
-                            iOS/Android App Development
-                        </Typography>
-                        <Typography variant="subtitle1" className={classes.subtitle}>
-                            Extend Functionality. Extend Access. Increase Engagement
-                        </Typography>
-                        <Typography variant="subtitle1">
-                            Integrate your web experience or create a standalone app
-                            { matchesSM ? null : <br/> }with either mobile platform
-                        </Typography>
-                        <Button 
-                            variant="outlined" 
-                            component={Link}
-                            to="/mobileapps"
-                            className={classes.learnButton}
-                            onClick={()=>{setValue(1); setSelectedIndex(2)}}
-                        >
-                            <span style={{ marginRight: 10}}>Learn More</span>
-                            <ButtonArrow width={10} height={10}
-                                fill={theme.palette.common.blue}/>
-                        </Button>
-                    </Grid>
-                    <Grid 
-                        item
-                        style={{marginRight: matchesSM ? 0 : "5em"}}
-                    >
-                        <img className={classes.icon} alt="custom software icon" src={mobileAppIcon} />
+                        <img 
+                        className={classes.icon} 
+                        alt="custom software icon" 
+                        src={customSoftwareIcon} />
                     </Grid>
                 </Grid>
             </Grid>
             <Grid item> {/*---Websites Block---*/}
-                <Grid container 
+                <Grid 
+                    container 
                     direction="row"  
-                    justify={matchesSM ? "center" : undefined } 
+                    justify={matchesSM ? "center" : "flex-end" } 
                     className={classes.serviceContainer}
+                    style={{marginBottom: "10em"}}
                 >
-                    <Grid item style={{marginLeft: matchesSM ? 0 : "5em", textAlign: matchesSM ? "center" : undefined }}>
+                    <Grid 
+                        item 
+                        style={{ 
+                        textAlign: matchesSM ? "center" : undefined,
+                        width: marginSM ? undefined : "35em"
+                    }}
+                    >
                         <Typography variant="h4">
                             Website Development
                         </Typography>
@@ -124,8 +183,16 @@ export default Services = ({setValue, setSelectedIndex}) => {
                                 fill={theme.palette.common.blue}/>
                         </Button>
                     </Grid>
-                    <Grid item>
-                        <img className={classes.icon} alt="custom software icon" src={websitesIcon} />
+                    <Grid 
+                        item
+                        style={{marginRight: matchesSM ? 0 : "5em",}}
+                    >
+                        <img 
+                            className={classes.icon} 
+                            alt="custom software icon" 
+                            src={websitesIcon} 
+                            width="250em"
+                        />
                     </Grid>
                 </Grid>
             </Grid>
