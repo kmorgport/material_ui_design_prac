@@ -11,6 +11,8 @@ import lightbulb from '../assets/bulb.svg';
 import cash from '../assets/cash.svg';
 import stopwatch from '../assets/stopwatch.svg'
 
+import documentsAnimations from '../animations/documentsAnimation/data.js'
+import scaleAnimations from '../animations/scaleAnimation/data.json'
 
 const useStyles = makeStyles( theme =>({
     mainContainer:{
@@ -24,11 +26,33 @@ const useStyles = makeStyles( theme =>({
     },
     arrowContainer: {
         marginTop: "0.5em"
+    },
+    itemContainer: {
+        maxWidth: "40em"
     }
 }))
 
 const CustomSoftware = ({setSelectedIndex, setValue}) => {
     const classes = useStyles();
+
+    const documentsOptions = {
+        loop: false,
+        autoplay: false,
+        animationData: documentsAnimations,
+        rendererSettings: {
+          preserveAspectRatio: "xMidYMid slice"
+        }
+      };
+
+    const scaleOptions = {
+        loop: false,
+        autoplay: false,
+        animationData: scaleAnimations,
+        rendererSettings: {
+          preserveAspectRatio: "xMidYMid slice"
+        }
+      };
+    
 
     return (
         <Grid container direction="column" className={classes.mainContainer}>
@@ -88,13 +112,118 @@ const CustomSoftware = ({setSelectedIndex, setValue}) => {
                     </IconButton>
                 </Grid>
             </Grid>
-            <Grid item container direction="row">
-                <Grid item container direction="column">
+            <Grid 
+                item 
+                container 
+                direction="row" 
+                justify="center"
+                style={{
+                    marginTop: "15em",
+                    marginBottom: "20em"
+                }}
+            >
+                <Grid 
+                    item 
+                    container 
+                    direction="column" 
+                    md 
+                    alignItems="center" 
+                    style={{maxWidth: "40em"}}
+                >
                     <Grid item>
                         <Typography variant="h4">Save Energy</Typography>
                     </Grid>
                     <Grid item>
                         <img src={lightbulb} alt="lightbulb"/>
+                    </Grid>
+                </Grid>
+                <Grid 
+                    item 
+                    container 
+                    direction="column" 
+                    md 
+                    alignItems="center" 
+                    style={{maxWidth: "40em"}}
+                >
+                    <Grid item>
+                        <Typography variant="h4">Save Time</Typography>
+                    </Grid>
+                    <Grid item>
+                        <img src={stopwatch} alt="stopwatch"/>
+                    </Grid>
+                </Grid>
+                <Grid 
+                    item 
+                    container 
+                    direction="column" 
+                    md 
+                    alignItems="center" 
+                    style={{maxWidth: "40em"}}
+                >
+                    <Grid item>
+                        <Typography variant="h4">Save Money</Typography>
+                    </Grid>
+                    <Grid item>
+                        <img src={cash} alt="cash"/>
+                    </Grid>
+                </Grid>
+            </Grid>
+            <Grid item container direction="row">
+                <Grid item container className={classes.itemContainer}>
+                    <Grid item container direction="column" md>
+                        <Grid item>
+                            <Typography variant="h4">Digital Documents & Data</Typography>
+                        </Grid>
+                        <Grid item>
+                            <Typography variant="body1" paragraph>
+                                Reduce Errors. Reduce Waste. Reduce Costs.
+                            </Typography>
+                            <Typography variant="body1" paragraph>
+                                Billions are spent annually on the purchasing, printing, and
+                                distribution of paper. On top of the massive environmental
+                                impact this has, it causes harm to your bottom line as well.
+                            </Typography>
+                            <Typography variant="body1" paragraph>
+                                By utilizing digital forms and documents you can remove these
+                                obsolete expenses, accelerate your communication, and help the
+                                Earth.
+                            </Typography>
+                        </Grid>
+                    </Grid>
+                    <Grid item md>
+                        <Lottie 
+                            options={documentsOptions} 
+                            isStopped={true} 
+                            style={{ 
+                                maxHeight: 325,
+                                maxWidth: 275,
+                                minHeight: 275
+                            }}
+                        />
+                    </Grid>
+                </Grid>
+                <Grid item container className={classes.itemContainer}>
+                    <Grid item md>
+                        <Lottie 
+                            options={scaleOptions} 
+                            isStopped={true} 
+                            style={{ 
+                                maxHeight: 260,
+                                maxWidth: 280,
+                            }}
+                        />
+                    </Grid>
+                    <Grid item container direction="column" md>
+                        <Grid item>
+                            <Typography align="right" variant="h4">Scale</Typography>
+                        </Grid>
+                        <Grid item>
+                            <Typography align="right" variant="body1" paragraph>
+                                Whether you’re a large brand, just getting started, or taking
+                                off right now, our application architecture ensures pain-free
+                                growth and reliability.                            
+                            </Typography>
+                        </Grid>
                     </Grid>
                 </Grid>
             </Grid>
