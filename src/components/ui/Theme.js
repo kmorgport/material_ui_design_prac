@@ -60,7 +60,6 @@ export default createTheme({
             color: arcGrey
         },
         subtitle2: {
-            color: "white",
             fontSize: "1.25rem",
             color: arcGrey
         },
@@ -72,6 +71,11 @@ export default createTheme({
             borderRadius: 50,
             fontFamily: "Roboto",
             fontWeight: "bold",
+        },
+        body1:{
+            fontSize: "1.25rem",
+            color: arcGrey,
+            fontWeight: 300
         }
     }
 })

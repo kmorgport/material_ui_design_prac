@@ -41,7 +41,7 @@ const useStyles = makeStyles( theme => ({
     },
 }))
 
-export default Services = ({setValue, setSelectedIndex}) => {
+const Services = ({setValue, setSelectedIndex}) => {
     const theme = useTheme();
     const classes = useStyles();
     const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
@@ -72,7 +72,7 @@ export default Services = ({setValue, setSelectedIndex}) => {
                         item 
                         style={{ 
                         textAlign: matchesSM ? "center" : undefined ,
-                        width: marginSM ? undefined : "35em"
+                        width: matchesSM ? undefined : "35em"
                     }}
                         >
                         <Typography variant="h4">
@@ -159,7 +159,7 @@ export default Services = ({setValue, setSelectedIndex}) => {
                         item 
                         style={{ 
                         textAlign: matchesSM ? "center" : undefined,
-                        width: marginSM ? undefined : "35em"
+                        width: matchesSM ? undefined : "35em"
                     }}
                     >
                         <Typography variant="h4">
@@ -199,3 +199,5 @@ export default Services = ({setValue, setSelectedIndex}) => {
         </Grid>
     )
 }
+
+export default Services
