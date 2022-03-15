@@ -8,6 +8,7 @@ import LandingPage from './LandingPage';
 import Services from './Services'
 import CustomSoftware from "./CustomSoftware";
 import MobileApps from "./MobileApps";
+import Websites from "./Websites";
 
 function App() {
   const [ selectedIndex, setSelectedIndex ] = useState(0)
@@ -50,6 +51,14 @@ function App() {
           <Route exact path="/mobileapps" 
             element={
               <MobileApps
+                setValue={setValue}
+                setSelectedIndex={setSelectedIndex}
+              />
+            }
+          />
+          <Route exact path="/websites" 
+            element={
+              <Websites
                 setValue={setValue}
                 setSelectedIndex={setSelectedIndex}
               />

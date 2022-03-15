@@ -84,7 +84,7 @@ const MobileApps = ({ setValue, setSelectedIndex }) => {
                         </Typography>
                     </Grid>
                     <Grid item>
-                        <Typography align={matchesMD ? "center" : undefined } variant="body1" paragraph>
+                        <Typography align={ matchesMD ? "center" : undefined } variant="body1" paragraph>
                             Mobile apps allow you to take your tools on the go.
                         </Typography>
                         <Typography align={matchesMD ? "center" : undefined } variant="body1" paragraph>
