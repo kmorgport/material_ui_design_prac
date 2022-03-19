@@ -3,7 +3,7 @@ import Lottie from 'react-lottie';
 import { Link } from 'react-router-dom';
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { Grid, IconButton, Typography, useMediaQuery, Hidden} from '@material-ui/core'
-import CallToAction from '../ui/CallToAction'
+import CallToAction from './ui/CallToAction';
 
 import vision from '../assets/vision.svg'
 import consultation from '../assets/consultationIcon.svg'
@@ -187,7 +187,7 @@ const Revolution = ({setValue}) => {
             </Grid>
             <Grid 
                 item container 
-                direction="row" 
+                direction={matchesMD ? "column" : "row"}
                 className={classes.rowContainer} 
                 style={{backgroundColor: "#B3B3B3", height: "90em"}}
             >
@@ -219,12 +219,12 @@ const Revolution = ({setValue}) => {
                     </Grid>
                 </Grid>
                 <Grid item lg style={{ alignSelf: "center" }}>
-                    <img src={consultation} alt="handshake"/>
+                    <img src={consultation} alt="handshake" width="100%" style={{ maxWidth: 700 }} />
                 </Grid>
             </Grid>
             <Grid 
                 item container 
-                direction="row" 
+                direction={matchesMD ? "column" : "row"}
                 className={classes.rowContainer} 
                 style={{backgroundColor: "#FF7373", height: "90em"}}
             >
@@ -252,12 +252,12 @@ const Revolution = ({setValue}) => {
                     </Grid>
                 </Grid>
                 <Grid item lg style={{ alignSelf: "center" }}>
-                    <img src={mockup} alt="basic website design outline"/>
+                    <img src={mockup} alt="basic website design outline" width="100%" style={{ maxWidth: 1000}}/>
                 </Grid>
             </Grid>
             <Grid 
                 item container 
-                direction="row" 
+                direction={matchesMD ? "column" : "row"} 
                 className={classes.rowContainer} 
                 style={{backgroundColor: "#39B54A", height: "90em"}}
             >
@@ -286,12 +286,12 @@ const Revolution = ({setValue}) => {
                     </Grid>
                 </Grid>
                 <Grid item lg style={{ alignSelf: "center" }}>
-                    <img src={review} alt="magnifying glass"/>
+                    <img src={review} width="100%" alt="magnifying glass"/>
                 </Grid>
             </Grid>
             <Grid 
                 item container 
-                direction="row" 
+                direction={matchesMD ? "column" : "row"}
                 className={classes.rowContainer} 
                 style={{backgroundColor: "#A67C52", height: "90em"}}
             >
@@ -316,12 +316,12 @@ const Revolution = ({setValue}) => {
                     </Grid>
                 </Grid>
                 <Grid item lg style={{ alignSelf: "center" }}>
-                    <img src={design} alt="paintbrush leaving stroke of paint"/>
+                    <img src={design} alt="paintbrush leaving stroke of paint" width="100%" style={{ maxWidth: 1000}}/>
                 </Grid>
             </Grid>
             <Grid 
                 item container 
-                direction="row" 
+                direction={matchesMD ? "column" : "row"}
                 className={classes.rowContainer} 
                 style={{backgroundColor: "#39B54A", height: "90em"}}
             >
@@ -349,12 +349,12 @@ const Revolution = ({setValue}) => {
                     </Grid>
                 </Grid>
                 <Grid item lg style={{ alignSelf: "center" }}>
-                    <img src={review} alt="magnifying glass"/>
+                    <img src={review} width="100%" alt="magnifying glass"/>
                 </Grid>
             </Grid>
             <Grid 
                 item container 
-                direction="row" 
+                direction={matchesMD ? "column" : "row"} 
                 className={classes.rowContainer} 
                 style={{backgroundColor: "#FBB03B", height: "90em"}}
             >
@@ -396,12 +396,12 @@ const Revolution = ({setValue}) => {
                     </Grid>
                 </Grid>
                 <Grid item lg style={{ alignSelf: "center" }}>
-                    <img src={build} alt="building construction site"/>
+                    <img src={build} alt="building construction site" width="100%" style={{ maxWidth: matchesMD ? 700 : 1000}}/>
                 </Grid>
             </Grid>
             <Grid 
                 item container 
-                direction="row" 
+                direction={matchesMD ? "column" : "row"}
                 className={classes.rowContainer} 
                 style={{backgroundColor: "#C1272D", height: "90em"}}
             >
@@ -430,12 +430,12 @@ const Revolution = ({setValue}) => {
                     </Grid>
                 </Grid>
                 <Grid item lg style={{ alignSelf: "center" }}>
-                    <img src={launch} alt="rocket"/>
+                    <img src={launch} alt="rocket" width="100%" style={{ maxWidth: 200}}/>
                 </Grid>
             </Grid>
             <Grid 
                 item container 
-                direction="row" 
+                direction={matchesMD ? "column" : "row"}
                 className={classes.rowContainer} 
                 style={{backgroundColor: "#8E45CE", height: "90em"}}
             >
@@ -463,12 +463,12 @@ const Revolution = ({setValue}) => {
                     </Grid>
                 </Grid>
                 <Grid item lg style={{ alignSelf: "center" }}>
-                    <img src={maintain} alt="wrench tightening bolts"/>
+                    <img src={maintain} alt="wrench tightening bolts" width="100%" style={{ maxWidth: 500}} />
                 </Grid>
             </Grid>
             <Grid 
                 item container 
-                direction="row" 
+                direction={matchesMD ? "column" : "row"}
                 className={classes.rowContainer} 
                 style={{backgroundColor: "#B3B3B3", height: "90em"}}
             >
@@ -504,7 +504,7 @@ const Revolution = ({setValue}) => {
             </Grid>
             <Grid 
                 item container 
-                direction="row" 
+                direction={matchesMD ? "column" : "row"} 
                 className={classes.rowContainer} 
                 style={{backgroundColor: "#29ABE2", height: "90em"}}
             >
