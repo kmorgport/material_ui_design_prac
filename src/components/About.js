@@ -2,6 +2,7 @@ import React from 'react';
 import Lottie from 'react-lottie';
 import { makeStyles, useTheme } from '@material-ui/core';
 import { Grid, Typography, Avatar, useMediaQuery, Hidden } from '@material-ui/core';
+import CallToAction from './ui/CallToAction';
 
 import history from '../assets/history.svg'
 import profile from '../assets/founder.jpg';
@@ -26,19 +27,25 @@ const useStyles = makeStyles( theme => ({
     },
     avatar: {
         height: "25em",
-        width: "25em"
-    }
+        width: "25em",
+        [theme.breakpoints.down("sm")]: {
+            height: "20em",
+            width: "20em",
+            maxHeight: 300,
+            maxWidth: 300
+        }
+    },
 }))
 
-const About = () => {
+const About = ({setValue}) => {
     const classes = useStyles();
     const theme = useTheme();
     const matchesMD = useMediaQuery(theme.breakpoints.down("md"))
 
     return (
         <Grid container direction="column">
-            <Grid item className={classes.rowContainer} style={{ marginTop: "2em" }}>
-                <Typography variant="h2">About Us</Typography>
+            <Grid item className={classes.rowContainer} style={{ marginTop: matchesMD ? "1em" : "2em" }}>
+                <Typography variant="h2" align={matchesMD ? "center" : undefined }>About Us</Typography>
             </Grid>
             <Grid item container justify="center" className={classes.rowContainer} style={{marginTop: "3em"}}>
                 <Typography variant="h4" align="center" className={classes.missionStatement}>
@@ -96,7 +103,11 @@ const About = () => {
                 </Grid>
                 <Grid item>
                     <Grid item container justify="center" lg>
-                        <img src={history} alt="quill pen  sitting on top of book" style={{maxHeight: "22em"}}></img>
+                        <img 
+                            src={history} 
+                            alt="quill pen  sitting on top of book" 
+                            style={{maxHeight: matchesMD ?  200 : "22em"}}
+                        />
                     </Grid>
                 </Grid>
             </Grid>
@@ -139,9 +150,14 @@ const About = () => {
                         direction="column" 
                         lg 
                         alignItems={matchesMD ? "center" : undefined}
+                        style={{ marginBottom: matchesMD ? "2.5em" : 0 }}
                     >
                         <Grid item>
-                            <img src={yearbook} alt="yearbook page about founder"/>
+                            <img 
+                                src={yearbook} 
+                                alt="yearbook page about founder"
+                                style={{ maxWidth: matchesMD ? 300 : undefined }}
+                            />
                         </Grid>
                         <Grid item>
                             <Typography variant="caption">a page</Typography>
@@ -159,7 +175,7 @@ const About = () => {
                     </Hidden>
                     <Grid item container direction="column" lg alignItems={matchesMD ? "center" : "flex-end"}>
                         <Grid item>
-                            <img src={puppy} alt="grey spotted puppy"/>
+                            <img src={puppy} alt="grey spotted puppy" style={{ maxWidth: matchesMD ? 300 : undefined }}/>
                         </Grid>
                         <Grid item>
                             <Typography variant="caption">
@@ -168,6 +184,9 @@ const About = () => {
                         </Grid>
                     </Grid>
                 </Grid>
+            </Grid>
+            <Grid item>
+                <CallToAction setValue={setValue}/>
             </Grid>
         </Grid>
     )
