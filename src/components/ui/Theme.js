@@ -76,6 +76,11 @@ export default createTheme({
             fontSize: "1.25rem",
             color: arcGrey,
             fontWeight: 300
+        },
+        caption: {
+            fontSize: "1rem",
+            fontWeight: 300,
+            color: arcGrey
         }
     }
 })

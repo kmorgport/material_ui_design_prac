@@ -1,9 +1,12 @@
 import React from 'react';
 import Lottie from 'react-lottie';
 import { makeStyles, useTheme } from '@material-ui/core';
-import { Grid, Button, Typography, Card, CardContent } from '@material-ui/core';
+import { Grid, Typography, Avatar, useMediaQuery, Hidden } from '@material-ui/core';
 
 import history from '../assets/history.svg'
+import profile from '../assets/founder.jpg';
+import yearbook from '../assets/yearbook.svg'
+import puppy from '../assets/puppy'
 
 const useStyles = makeStyles( theme => ({
     missionStatement: {
@@ -21,18 +24,23 @@ const useStyles = makeStyles( theme => ({
             paddingRight: "1.5em",
         }
     },
+    avatar: {
+        height: "25em",
+        width: "25em"
+    }
 }))
 
 const About = () => {
     const classes = useStyles();
     const theme = useTheme();
+    const matchesMD = useMediaQuery(theme.breakpoints.down("md"))
 
     return (
         <Grid container direction="column">
             <Grid item className={classes.rowContainer} style={{ marginTop: "2em" }}>
                 <Typography variant="h2">About Us</Typography>
             </Grid>
-            <Grid item container justify="center" className={classes.rowContainer}>
+            <Grid item container justify="center" className={classes.rowContainer} style={{marginTop: "3em"}}>
                 <Typography variant="h4" align="center" className={classes.missionStatement}>
                     Whether it be person to person, business to consumer, or an individual
                     to their interests, technology is meant to bring us closer to what we
@@ -41,29 +49,36 @@ const About = () => {
                     to the Midwest and beyond.
                 </Typography>
             </Grid>
-            <Grid item container className={classes.rowContainer} justify="space-around">
+            <Grid 
+                item container 
+                className={classes.rowContainer}
+                style={{marginTop: "10em", marginBottom: "10em"}}
+                direction={ matchesMD ? "column" : "row" }
+                alignItems= { matchesMD ? "center" : undefined }
+                justify="space-around"
+            >
                 <Grid item>
                     <Grid item container direction="column" lg style={{ maxWidth: "35em" }}>
                         <Grid item>
-                            <Typography variant="h4" gutterBottom>
+                            <Typography align={matchesMD ? "center" : undefined} variant="h4" gutterBottom>
                                 History
                             </Typography>
                         </Grid>
                         <Grid item>
-                            <Typography variant="body1" paragraph style={{ fontWeight: 700, fontStyle: "Italic"}}>
+                            <Typography variant="body1" align={matchesMD ? "center" : undefined} paragraph style={{ fontWeight: 700, fontStyle: "Italic"}}>
                                 We're the new kid on the block.
                             </Typography>
-                            <Typography variant="body1" paragraph>
+                            <Typography variant="body1" align={matchesMD ? "center" : undefined} paragraph>
                                 Founded in 2019, we’re ready to get our hands on the world’s
                                 business problems.
                             </Typography>
-                            <Typography variant="body1" paragraph>
+                            <Typography variant="body1" align={matchesMD ? "center" : undefined} paragraph>
                                 It all started with one question: Why aren’t all businesses
                                 using available technology? There are many different answers to
                                 that question: economic barriers, social barriers, educational
                                 barriers, and sometimes institutional barriers.
                             </Typography>
-                            <Typography variant="body1" paragraph>
+                            <Typography variant="body1" align={matchesMD ? "center" : undefined} paragraph>
                                 We aim to be a powerful force in overcoming these obstacles.
                                 Recent developments in software engineering and computing power,
                                 compounded by the proliferation of smart phones, has opened up
@@ -72,7 +87,7 @@ const About = () => {
                                 completely new methods of interaction are created daily. Taking
                                 full advantage of these advancements is the name of the game.
                             </Typography>
-                            <Typography variant="body1" paragraph>
+                            <Typography variant="body1" align={matchesMD ? "center" : undefined} paragraph>
                                 All this change can be a lot to keep up with, and that’s where
                                 we come in.
                             </Typography>
@@ -82,6 +97,75 @@ const About = () => {
                 <Grid item>
                     <Grid item container justify="center" lg>
                         <img src={history} alt="quill pen  sitting on top of book" style={{maxHeight: "22em"}}></img>
+                    </Grid>
+                </Grid>
+            </Grid>
+            <Grid 
+                item container 
+                direction="column" 
+                alignItems="center" 
+                className={classes.rowContainer} 
+                style={{marginBottom: "15em"}}
+            >
+                <Grid item>
+                    <Typography variant="h4" gutterBottom align="center">
+                        Team
+                    </Typography>
+                </Grid>
+                <Grid item>
+                    <Typography variant="body1" paragraph align="center">
+                        Founder
+                    </Typography>
+                    <Typography variant="body1" paragraph align="center">
+                        Cat Facts
+                    </Typography>
+                </Grid>
+                <Grid item>
+                    <Avatar alt="founder" src={puppy} className={classes.avatar}/>
+                </Grid>
+                <Grid item container justify={matchesMD ? "center" : undefined} > 
+                    <Hidden lgUp>
+                            <Grid item lg style={{ maxWidth: "45em", padding: "1.25em" }}>
+                                <Typography variant="body1" align="center" paragraph>
+                                    Filler stuff
+                                </Typography>
+                                <Typography variant="body1" align="center" paragraph>
+                                    More filler stuff
+                                </Typography>
+                            </Grid>
+                    </Hidden>
+                    <Grid 
+                        item container 
+                        direction="column" 
+                        lg 
+                        alignItems={matchesMD ? "center" : undefined}
+                    >
+                        <Grid item>
+                            <img src={yearbook} alt="yearbook page about founder"/>
+                        </Grid>
+                        <Grid item>
+                            <Typography variant="caption">a page</Typography>
+                        </Grid>
+                    </Grid>
+                    <Hidden mdDown>
+                        <Grid item lg style={{ maxWidth: "45em", padding: "1.25em" }}>
+                            <Typography variant="body1" align="center" paragraph>
+                                Filler stuff
+                            </Typography>
+                            <Typography variant="body1" align="center" paragraph>
+                                More filler stuff
+                            </Typography>
+                        </Grid>
+                    </Hidden>
+                    <Grid item container direction="column" lg alignItems={matchesMD ? "center" : "flex-end"}>
+                        <Grid item>
+                            <img src={puppy} alt="grey spotted puppy"/>
+                        </Grid>
+                        <Grid item>
+                            <Typography variant="caption">
+                                A puppy
+                            </Typography>
+                        </Grid>
                     </Grid>
                 </Grid>
             </Grid>
