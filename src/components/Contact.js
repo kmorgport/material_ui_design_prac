@@ -34,6 +34,32 @@ const Contact = () =>{
                         We're Waiting
                     </Typography>
                 </Grid>
+                <Grid item container>
+                    <Grid item>
+                        <img src={phoneIcon} alt="phone" style={{ marginRight: "0.5em "}} />
+                    </Grid>
+                    <Grid item>
+                        <Typography 
+                            variant="body1" 
+                            style={{ color: theme.palette.common.blue, fontSize: "1rem"}}
+                        >
+                            Phone Number here
+                        </Typography>
+                    </Grid>
+                </Grid>
+                <Grid item container>
+                    <Grid item>
+                        <img src={emailIcon} alt="envelope" style={{ marginRight: "0.5em "}} />
+                    </Grid>
+                    <Grid item>
+                        <Typography 
+                            variant="body1" 
+                            style={{ color: theme.palette.common.blue, fontSize: "1rem"}}
+                        >
+                            zachary@email.com
+                        </Typography>
+                    </Grid>
+                </Grid>
             </Grid>
             <Grid item container className={classes.background} lg={9}>
             </Grid>
