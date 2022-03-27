@@ -7,7 +7,7 @@ import CallToAction from './ui/CallToAction';
 import history from '../assets/history.svg'
 import profile from '../assets/founder.jpg';
 import yearbook from '../assets/yearbook.svg'
-import puppy from '../assets/puppy'
+import puppy from '../assets/puppy.svg'
 
 const useStyles = makeStyles( theme => ({
     missionStatement: {
