@@ -12,6 +12,7 @@ import {
 } from "@material-ui/core";
 
 import background from "../assets/background.jpg";
+import mobileBackground from "../assets/mobileBackground.jpg";
 import phoneIcon from "../assets/phone.svg";
 import emailIcon from "../assets/email.svg";
 import airplane from "../assets/send.svg";
@@ -23,7 +24,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     height: "60em",
-    paddingBottom: "10em"
+    paddingBottom: "10em",
+    [theme.breakpoints.down("md")]: {
+      backgroundImage: `url(${mobileBackground})`
+    }
   },
   estimateButton: {
     ...theme.typography.estimate,
@@ -67,10 +71,41 @@ const Contact = ({ setValue }) => {
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
   const matchesMD = useMediaQuery(theme.breakpoints.down("md"))
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [message, setMessage] = useState("");
+  const [ name, setName] = useState("");
+
+  const [ email, setEmail] = useState("");
+  const [ emailHelper, setEmailHelper ] = useState("")
+
+  const [ phone, setPhone] = useState("");
+  const [ phoneHelper, setPhoneHelper ] = useState("")
+
+  const [ message, setMessage] = useState("");
+  const onChange = e => {
+    let isValid;
+
+    switch(e.target.id){
+      case 'email':
+        setEmail(e.target.value)
+        isValid = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(e.target.value)
+        if(!isValid){
+          setEmailHelper("Invalid email")
+        }else{
+          setEmailHelper("")
+        }
+        break;
+      case 'phone':
+        setPhone(e.target.value)
+        isValid = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(e.target.value)
+        if(!isValid){
+          setPhoneHelper("Invalid Phone")
+        }else{
+          setPhoneHelper("")
+        }
+        break
+      default:
+        break;
+    }
+  }
 
   return (
     <Grid container direction="row">
@@ -79,16 +114,25 @@ const Contact = ({ setValue }) => {
         direction="column" 
         alignItems="center" 
         justify="center" 
+        style={{
+          marginBottom: matchesMD ? "5em" : 0,
+          marginTop: matchesMD ? "1em" : matchesMD ? "5em" : 0
+        }}
         lg={4} xl={3}
       >
         <Grid item>
           <Grid container direction="column">
             <Grid item>
-              <Typography variant="h2" style={{ lineHeight: 1 }}>
+              <Typography 
+                align={ matchesMD ? "center" : undefined } 
+                variant="h2" 
+                style={{ lineHeight: 1 }}
+              >
                 Contact Us
               </Typography>
               <Typography
                 variant="body1"
+                align={ matchesMD ? "center" : undefined }
                 style={{ color: theme.palette.common.blue }}
               >
                 We're Waiting
@@ -133,31 +177,34 @@ const Contact = ({ setValue }) => {
               direction="column" 
               style={{ maxWidth: "20em" }}
             >
-              <Grid item>
+              <Grid item style={{marginBottom: "0.5em"}}>
                 <TextField
                   label="Name"
+                  error
                   id="name"
                   fullWidth
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
               </Grid>
-              <Grid item>
+              <Grid item style={{marginBottom: "0.5em"}}>
                 <TextField
                   label="Email"
+                  error={emailHelper.length !== 0}
                   id="email"
                   fullWidth
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={onChange}
                 />
               </Grid>
-              <Grid>
+              <Grid item style={{marginBottom: "0.5em"}}>
                 <TextField
                   label="Phone"
                   id="phone"
+                  error={phoneHelper.length!== 0}
                   fullWidth
                   value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  onChange={onChange}
                 />
               </Grid>
             </Grid>
@@ -191,6 +238,7 @@ const Contact = ({ setValue }) => {
         className={classes.background}
         alignItems="center"
         directions={matchesMD ? "column" : "row" }
+        justify={ matchesMD ? "center" : undefined}
         lg={8} xl={9}
       >
         <Grid
