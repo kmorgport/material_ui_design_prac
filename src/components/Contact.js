@@ -9,6 +9,8 @@ import {
   Typography,
   useMediaQuery,
   TextField,
+  Dialog,
+  DialogContent,
 } from "@material-ui/core";
 
 import background from "../assets/background.jpg";
@@ -26,8 +28,8 @@ const useStyles = makeStyles((theme) => ({
     height: "60em",
     paddingBottom: "10em",
     [theme.breakpoints.down("md")]: {
-      backgroundImage: `url(${mobileBackground})`
-    }
+      backgroundImage: `url(${mobileBackground})`,
+    },
   },
   estimateButton: {
     ...theme.typography.estimate,
@@ -69,76 +71,85 @@ const Contact = ({ setValue }) => {
   const theme = useTheme();
 
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
-  const matchesMD = useMediaQuery(theme.breakpoints.down("md"))
+  const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
 
-  const [ name, setName] = useState("");
+  const [name, setName] = useState("");
 
-  const [ email, setEmail] = useState("");
-  const [ emailHelper, setEmailHelper ] = useState("")
+  const [email, setEmail] = useState("");
+  const [emailHelper, setEmailHelper] = useState("");
 
-  const [ phone, setPhone] = useState("");
-  const [ phoneHelper, setPhoneHelper ] = useState("")
+  const [phone, setPhone] = useState("");
+  const [phoneHelper, setPhoneHelper] = useState("");
 
-  const [ message, setMessage] = useState("");
-  const onChange = e => {
+  const [message, setMessage] = useState("");
+
+  const [open, setOpen] = useState(false);
+
+  const onChange = (e) => {
     let isValid;
 
-    switch(e.target.id){
-      case 'email':
-        setEmail(e.target.value)
-        isValid = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(e.target.value)
-        if(!isValid){
-          setEmailHelper("Invalid email")
-        }else{
-          setEmailHelper("")
+    switch (e.target.id) {
+      case "email":
+        setEmail(e.target.value);
+        isValid = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
+          e.target.value
+        );
+        if (!isValid) {
+          setEmailHelper("Invalid email");
+        } else {
+          setEmailHelper("");
         }
         break;
-      case 'phone':
-        setPhone(e.target.value)
-        isValid = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(e.target.value)
-        if(!isValid){
-          setPhoneHelper("Invalid Phone")
-        }else{
-          setPhoneHelper("")
+      case "phone":
+        setPhone(e.target.value);
+        isValid = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(
+          e.target.value
+        );
+        if (!isValid) {
+          setPhoneHelper("Invalid Phone");
+        } else {
+          setPhoneHelper("");
         }
-        break
+        break;
       default:
         break;
     }
-  }
+  };
 
   return (
     <Grid container direction="row">
-      <Grid 
-        item container 
-        direction="column" 
-        alignItems="center" 
-        justify="center" 
+      <Grid
+        item
+        container
+        direction="column"
+        alignItems="center"
+        justify="center"
         style={{
           marginBottom: matchesMD ? "5em" : 0,
-          marginTop: matchesMD ? "1em" : matchesMD ? "5em" : 0
+          marginTop: matchesMD ? "1em" : matchesMD ? "5em" : 0,
         }}
-        lg={4} xl={3}
+        lg={4}
+        xl={3}
       >
         <Grid item>
           <Grid container direction="column">
             <Grid item>
-              <Typography 
-                align={ matchesMD ? "center" : undefined } 
-                variant="h2" 
+              <Typography
+                align={matchesMD ? "center" : undefined}
+                variant="h2"
                 style={{ lineHeight: 1 }}
               >
                 Contact Us
               </Typography>
               <Typography
                 variant="body1"
-                align={ matchesMD ? "center" : undefined }
+                align={matchesMD ? "center" : undefined}
                 style={{ color: theme.palette.common.blue }}
               >
                 We're Waiting
               </Typography>
             </Grid>
-            <Grid item container style={{marginTop: "2em"}}>
+            <Grid item container style={{ marginTop: "2em" }}>
               <Grid item>
                 <img
                   src={phoneIcon}
@@ -151,11 +162,16 @@ const Contact = ({ setValue }) => {
                   variant="body1"
                   style={{ color: theme.palette.common.blue, fontSize: "1rem" }}
                 >
-                  555-5555
+                  <a
+                    href="tel:5555555"
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    555-5555
+                  </a>
                 </Typography>
               </Grid>
             </Grid>
-            <Grid item container style={{ marginBottom: "2em"}}>
+            <Grid item container style={{ marginBottom: "2em" }}>
               <Grid item>
                 <img
                   src={emailIcon}
@@ -168,40 +184,48 @@ const Contact = ({ setValue }) => {
                   variant="body1"
                   style={{ color: theme.palette.common.blue, fontSize: "1rem" }}
                 >
-                  person@email.com
+                  <a
+                    href="mailto:person@email.com"
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    person@email.com
+                  </a>
                 </Typography>
               </Grid>
             </Grid>
-            <Grid 
-              item container 
-              direction="column" 
+            <Grid
+              item
+              container
+              direction="column"
               style={{ maxWidth: "20em" }}
             >
-              <Grid item style={{marginBottom: "0.5em"}}>
+              <Grid item style={{ marginBottom: "0.5em" }}>
                 <TextField
                   label="Name"
-                  error
+                  error={name.length === 0}
                   id="name"
                   fullWidth
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
               </Grid>
-              <Grid item style={{marginBottom: "0.5em"}}>
+              <Grid item style={{ marginBottom: "0.5em" }}>
                 <TextField
                   label="Email"
                   error={emailHelper.length !== 0}
                   id="email"
+                  helperText={emailHelper}
                   fullWidth
                   value={email}
                   onChange={onChange}
                 />
               </Grid>
-              <Grid item style={{marginBottom: "0.5em"}}>
+              <Grid item style={{ marginBottom: "0.5em" }}>
                 <TextField
                   label="Phone"
                   id="phone"
-                  error={phoneHelper.length!== 0}
+                  error={phoneHelper.length !== 0}
+                  helperText={phoneHelper}
                   fullWidth
                   value={phone}
                   onChange={onChange}
@@ -221,7 +245,17 @@ const Contact = ({ setValue }) => {
               />
             </Grid>
             <Grid item container justify="center" style={{ marginTop: "2em" }}>
-              <Button variant="contained" className={classes.sendButton}>
+              <Button
+                disabled={
+                  name.length === 0 ||
+                  message.length === 0 ||
+                  phone.length === 0 ||
+                  email.length === 0
+                }
+                variant="contained"
+                className={classes.sendButton}
+                onClick={() => setOpen(true)}
+              >
                 Send Message
                 <img
                   src={airplane}
@@ -233,13 +267,79 @@ const Contact = ({ setValue }) => {
           </Grid>
         </Grid>
       </Grid>
+      <Dialog open={open} onClose={() => setOpen(false)}>
+        <DialogContent>
+          <Grid container direction="column">
+            <Grid item>
+              <Typography variant="h4" gutterBottom>
+                Confirm Message
+              </Typography>
+            </Grid>
+            <Grid item container>
+              <Grid
+                item
+                container
+                direction="column"
+                style={{ maxWidth: "20em" }}
+              >
+                <Grid item style={{ marginBottom: "0.5em" }}>
+                  <TextField
+                    label="Name"
+                    error={name.length === 0}
+                    id="name"
+                    fullWidth
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </Grid>
+                <Grid item style={{ marginBottom: "0.5em" }}>
+                  <TextField
+                    label="Email"
+                    error={emailHelper.length !== 0}
+                    id="email"
+                    helperText={emailHelper}
+                    fullWidth
+                    value={email}
+                    onChange={onChange}
+                  />
+                </Grid>
+                <Grid item style={{ marginBottom: "0.5em" }}>
+                  <TextField
+                    label="Phone"
+                    id="phone"
+                    error={phoneHelper.length !== 0}
+                    helperText={phoneHelper}
+                    fullWidth
+                    value={phone}
+                    onChange={onChange}
+                  />
+                </Grid>
+              </Grid>
+              <Grid item style={{ maxWidth: "20em" }}>
+                <TextField
+                  value={message}
+                  className={classes.message}
+                  InputProps={{ disableUnderline: true }}
+                  fullWidth
+                  id="message"
+                  multiline
+                  rows={10}
+                  onChange={(e) => setMessage(e.target.value)}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+        </DialogContent>
+      </Dialog>
       <Grid
-        item container
+        item
+        container
         className={classes.background}
         alignItems="center"
-        directions={matchesMD ? "column" : "row" }
-        justify={ matchesMD ? "center" : undefined}
-        lg={8} xl={9}
+        directions={matchesMD ? "column" : "row"}
+        justify={matchesMD ? "center" : undefined}
+        lg={8}
+        xl={9}
       >
         <Grid
           item
@@ -250,11 +350,15 @@ const Contact = ({ setValue }) => {
         >
           <Grid container direction="column">
             <Grid item>
-              <Typography variant="h2" align={ matchesMD ? "center" : undefined } >
+              <Typography variant="h2" align={matchesMD ? "center" : undefined}>
                 Simple Software.
                 <br /> Revolutionary Results.
               </Typography>
-              <Typography variant="subtitle2" align={ matchesMD ? "center" : undefined } style={{ fontSize: "1.5" }}>
+              <Typography
+                variant="subtitle2"
+                align={matchesMD ? "center" : undefined}
+                style={{ fontSize: "1.5" }}
+              >
                 Take advantage of the 21st century.
               </Typography>
               <Grid container item justify={matchesSM ? "center" : undefined}>
