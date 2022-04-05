@@ -12,6 +12,8 @@ import {
   TextField,
   Dialog,
   DialogContent,
+  CircularProgress,
+  Snackbar
 } from "@material-ui/core";
 
 import background from "../assets/background.jpg";
@@ -91,6 +93,14 @@ const Contact = ({ setValue }) => {
 
   const [open, setOpen] = useState(false);
 
+  const [loading, setLoading] = useState(false);
+
+  const [ alert, setAlert ] = useState({ 
+    open: false,
+    message: "",
+    backgroundColor: ""
+  })
+
   const onChange = (e) => {
     let isValid;
 
@@ -123,15 +133,31 @@ const Contact = ({ setValue }) => {
   };
 
   const onConfirm = async () => {
+    setLoading(true);
+
     try {
       const resp = await axios.get(
         `https://us-central1-material-ui-prac.cloudfunctions.net/sendMail`
       );
+      setLoading(false);
+      setOpen(false);
+      setName("");
+      setEmail("");
+      setPhone("");
+      setMessage("");
       console.log(resp.data);
     } catch (err) {
+      setLoading(false);
       console.log(err);
     }
   };
+
+  const buttonContents = (
+    <React.Fragment>
+      Send Message
+      <img src={airplane} alt="airplane" style={{ marginLeft: "1em" }} />
+    </React.Fragment>
+  );
 
   return (
     <Grid container direction="row">
@@ -270,14 +296,9 @@ const Contact = ({ setValue }) => {
                 }
                 variant="contained"
                 className={classes.sendButton}
-                onClick={()=>setOpen(true)}
+                onClick={() => setOpen(true)}
               >
-                Send Message
-                <img
-                  src={airplane}
-                  alt="airplane"
-                  style={{ marginLeft: "1em" }}
-                />
+                {buttonContents}
               </Button>
             </Grid>
           </Grid>
@@ -394,18 +415,21 @@ const Contact = ({ setValue }) => {
                   className={classes.sendButton}
                   onClick={onConfirm}
                 >
-                  Send Message
-                  <img
-                    src={airplane}
-                    alt="airplane"
-                    style={{ marginLeft: "1em" }}
-                  />
+                  {loading ? <CircularProgress size={30} /> : buttonContents}
                 </Button>
               </Grid>
             </Grid>
           </Grid>
         </DialogContent>
       </Dialog>
+      <Snackbar 
+        open={ alert.open } 
+        message={ alert.message} 
+        ContentProps={{style: {backgroundColor: alert.backgroundColor}}} 
+        anchorOrigin={{vertical: "top", horizontal: "center"}}
+        onClose={()=> setAlert({...alert, open: false})}
+        autoHideDuration={4000}
+      />
       <Grid
         item
         container
