@@ -137,7 +137,15 @@ const Contact = ({ setValue }) => {
 
     try {
       const resp = await axios.get(
-        `https://us-central1-material-ui-prac.cloudfunctions.net/sendMail`
+        `https://us-central1-material-ui-prac.cloudfunctions.net/sendMail`,
+        {
+          params: {
+            name,
+            email,
+            phone,
+            message
+          }
+        }
       );
       setLoading(false);
       setOpen(false);
@@ -145,9 +153,19 @@ const Contact = ({ setValue }) => {
       setEmail("");
       setPhone("");
       setMessage("");
+      setAlert({
+        open: true,
+        message: "Message sent successfully",
+        backgroundColor: "#4BB543"
+      })
       console.log(resp.data);
     } catch (err) {
       setLoading(false);
+      setAlert({
+        open: true,
+        message: "Something went wrong, please try again",
+        backgroundColor: "#FF3232"
+      })
       console.log(err);
     }
   };
