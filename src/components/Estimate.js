@@ -350,6 +350,38 @@ const Estimate = () => {
 
   }
 
+  const navigationPreviousDisabled = () => {
+    const currentlyActive = newQuestions.filter(question => question.active)
+
+    if (currentlyActive[0].id === 1){
+      return true
+    }else{
+      return false
+    }
+  }
+
+  const navigationNextDisabled = () =>{
+    const currentlyActive = newQuestions.filter(question => question.active)
+    if(currentlyActive[0].id === questions[questions.length-1]){
+      return true
+    }else {
+      return false
+    }
+  }
+
+  const handleSelect = id => {
+    const newQuestions = cloneDeep(questions);
+    const currentlyActive = newQuestions.filter(question => question.active);
+    const activeIndex = currentlyActive[0].id - 1;
+
+    const newSelected = newQuestions[activeIndex].options[id-1]
+    newSelected.selected = !newSelected.selected
+
+    setQuestions(newQuestions)
+
+
+  }
+
   return (
     <Grid container direction="row">
       <Grid item container direction="column" lg>
@@ -384,6 +416,7 @@ const Estimate = () => {
                     fontSize: "2.25rem",
                     marginBottom: "2.5em",
                     marginTop: "5em",
+                    lineHeight: 1.25
                   }}
                   gutterBottom
                 >
@@ -400,8 +433,14 @@ const Estimate = () => {
               </Grid>
               <Grid item container>
                 {question.options.map((option) => (
-                  <Grid item container direction="column" md>
-                    <Grid item style={{ maxWidth: "12em" }}>
+                  <Grid item container direction="column" md component={Button}
+                    onClick={()=> handleSelect(option.id)}
+                    style={{
+                      display: "grid", 
+                      textTransform: "none", 
+                      backgroundColor: option.selected ? theme.palette.common.orange : null }}
+                  >
+                    <Grid item style={{ maxWidth: "14em" }}>
                       <Typography
                         variant="h6"
                         align="center"
@@ -432,13 +471,17 @@ const Estimate = () => {
           style={{ width: "18em", marginTop: "3em" }}
         >
           <Grid item>
-            <IconButton onClick={previousQuestion}>
-              <img src={backArrow} alt="Previous question" />
+            <IconButton disabled={navigationPreviousDisabled()} onClick={previousQuestion}>
+              <img 
+                src={navigationPreviousDisabled() ? backArrowDisabled :backArrow} 
+                alt="Previous question" />
             </IconButton>
           </Grid>
           <Grid item>
-            <IconButton onClick={nextQuestion}>
-              <img src={forwardArrowDisabled} alt="Next Question" />
+            <IconButton disabled={navigationNextDisabled()} onClick={nextQuestion}>
+              <img 
+                src={navigationNextDisabled() ? forwardArrowDisabled : backArrow} 
+                alt="Next Question" />
             </IconButton>
           </Grid>
         </Grid>
