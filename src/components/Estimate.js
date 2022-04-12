@@ -9,7 +9,7 @@ import {
   Dialog,
   DialogContent,
   TextField,
-  useMediaQuery
+  useMediaQuery,
 } from "@material-ui/core";
 import { cloneDeep } from "lodash";
 
@@ -61,6 +61,12 @@ const useStyles = makeStyles((theme) => ({
     border: `2px solid ${theme.palette.common.blue}`,
     marginTop: "5em",
     borderRadius: 5,
+  },
+  specialText: {
+    fontFamily: "Raleway",
+    fontWeight: 700,
+    fontSize: "1.5rem",
+    color: theme.palette.common.orange,
   },
 }));
 
@@ -341,7 +347,14 @@ const Estimate = () => {
 
   const [message, setMessage] = useState("");
 
-  const [ total, setTotal] = useState(0);
+  const [total, setTotal] = useState(0);
+
+  const [ service, setService ] = useState([]);
+  const [ platforms, setPlatforms ] = useState([]);
+  const [ features, setFeatures ] = useState([]);
+  const [ customFeatures, setCustomFeatures ] = useState("");
+  const [ category, setCategory ] = useState("");
+  const [ users, setUsers ] = useState("")
 
   const defaultOptions = {
     loop: false,
@@ -377,7 +390,7 @@ const Estimate = () => {
   };
 
   const navigationPreviousDisabled = () => {
-    const currentlyActive = newQuestions.filter((question) => question.active);
+    const currentlyActive = questions.filter((question) => question.active);
 
     if (currentlyActive[0].id === 1) {
       return true;
@@ -387,8 +400,8 @@ const Estimate = () => {
   };
 
   const navigationNextDisabled = () => {
-    const currentlyActive = newQuestions.filter((question) => question.active);
-    if (currentlyActive[0].id === questions[questions.length - 1]) {
+    const currentlyActive = questions.filter((question) => question.active);
+    if (currentlyActive[0].id === questions[questions.length - 1].id) {
       return true;
     } else {
       return false;
@@ -466,22 +479,27 @@ const Estimate = () => {
   const getTotal = () => {
     let cost = 0;
 
-    const selections = questions.map(question => question.options.filter(option=> option.selected)).filter(question=> question.length>0);
+    const selections = questions
+      .map((question) => question.options.filter((option) => option.selected))
+      .filter((question) => question.length > 0);
 
-    selections.map(options => options.map(option => cost += option.cost))
+    selections.map((options) => options.map((option) => (cost += option.cost)));
 
-    if(questions.length > 2 ){
-      const userCost = questions.filter(
-        question => question.title === "How many users do you expect?").map(
-          question=> question.options.filter(
-            option=> option.selected))[0][0].cost
+    if (questions.length > 2) {
+      const userCost = questions
+        .filter(
+          (question) => question.title === "How many users do you expect?"
+        )
+        .map((question) =>
+          question.options.filter((option) => option.selected)
+        )[0][0].cost;
 
-      cost -= userCost
-      cost *= userCost
+      cost -= userCost;
+      cost *= userCost;
     }
 
-    setTotal(cost)
-  }
+    setTotal(cost);
+  };
 
   return (
     <Grid container direction="row">
@@ -599,7 +617,7 @@ const Estimate = () => {
             >
               <img
                 src={
-                  navigationNextDisabled() ? forwardArrowDisabled : backArrow
+                  navigationNextDisabled() ? forwardArrowDisabled : forwardArrow
                 }
                 alt="Next Question"
               />
@@ -610,7 +628,10 @@ const Estimate = () => {
           <Button
             variant="container"
             className={classes.estimateButton}
-            onClick={() => {setDialogOpen(true); getTotal()}}
+            onClick={() => {
+              setDialogOpen(true);
+              getTotal();
+            }}
           >
             Get Estimate
           </Button>
@@ -626,7 +647,7 @@ const Estimate = () => {
         </Grid>
         <DialogContent>
           <Grid container>
-            <Grid item container direction="column">
+            <Grid item container direction="column" md={7}>
               <Grid item style={{ marginBottom: "0.5em" }}>
                 <TextField
                   label="Name"
@@ -658,27 +679,66 @@ const Estimate = () => {
                   onChange={onChange}
                 />
               </Grid>
+              <Grid item style={{ maxWidth: matchesXS ? "100%" : "20em" }}>
+                <TextField
+                  value={message}
+                  className={classes.message}
+                  InputProps={{ disableUnderline: true }}
+                  fullWidth
+                  id="message"
+                  multiline
+                  rows={10}
+                  onChange={(e) => setMessage(e.target.value)}
+                />
+              </Grid>
+              <Grid item>
+                <Typography variant="body1" paragraph>
+                  We can create this digital solution for an estimated{" "}
+                  <span className={classes.specialText}>
+                    ${total.toFixed(2)}
+                  </span>
+                </Typography>
+                <Typography variant="body1" paragraph>
+                  Fill out your name, phone number, and email. Place your
+                  request with details moving forward and a final price.
+                </Typography>
+              </Grid>
             </Grid>
-            <Grid item style={{ maxWidth: matchesXS ? "100%" : "20em" }}>
-              <TextField
-                value={message}
-                className={classes.message}
-                InputProps={{ disableUnderline: true }}
-                fullWidth
-                id="message"
-                multiline
-                rows={10}
-                onChange={(e) => setMessage(e.target.value)}
-              />
-            </Grid>
-            <Grid item>
-              <Typography variant="body1" paragraph>
-                  We can create this digital solution for an estimated
-              </Typography>
-              <Typography variant="body1" paragraph>
-                Fill out your name, phone number, and email. Place your request with details
-                moving forward and a final price.
-              </Typography>
+            <Grid item container direction="column" md={5}>
+              <Grid item>
+                <Grid container direction="column">
+                  <Grid item container alignItems="center">
+                    <Grid item>
+                      <img src={check} alt="checkmark"/>
+                    </Grid>
+                    <Grid item>
+                      <Typography variant="body1">First Options Check</Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid item container alignItems="center">
+                    <Grid item>
+                      <img src={check} alt="checkmark"/>
+                    </Grid>
+                    <Grid item>
+                      <Typography variant="body1">Second Options Check</Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid item container alignItems="center">
+                    <Grid item>
+                      <img src={check} alt="checkmark"/>
+                    </Grid>
+                    <Grid item>
+                      <Typography variant="body1">Third Options Check</Typography>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item>
+                <Button variant="contained" className={classes.estimateButton}>
+                  Place Request
+                  <img src={send} alt="paper airplane" style={{marginLeft: "0.5em"}}/>
+                </Button>
+              </Grid>
             </Grid>
           </Grid>
         </DialogContent>
