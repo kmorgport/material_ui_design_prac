@@ -1,8 +1,17 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Lottie from "react-lottie";
 import { makeStyles, useTheme } from "@material-ui/styles";
-import { Grid, Typography, Button, IconButton } from "@material-ui/core";
-import {cloneDeep} from 'lodash';
+import {
+  Grid,
+  Typography,
+  Button,
+  IconButton,
+  Dialog,
+  DialogContent,
+  TextField,
+  useMediaQuery
+} from "@material-ui/core";
+import { cloneDeep } from "lodash";
 
 import check from "../assets/check.svg";
 import send from "../assets/send.svg";
@@ -48,6 +57,11 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.secondary.light,
     },
   },
+  message: {
+    border: `2px solid ${theme.palette.common.blue}`,
+    marginTop: "5em",
+    borderRadius: 5,
+  },
 }));
 
 const defaultQuestions = [
@@ -87,7 +101,7 @@ const defaultQuestions = [
   },
 ];
 
-const newQuestions = cloneDeep(defaultQuestions)
+const newQuestions = cloneDeep(defaultQuestions);
 
 const softwareQuestions = [
   { ...defaultQuestions[0], active: false },
@@ -103,7 +117,7 @@ const softwareQuestions = [
         icon: website,
         iconAlt: "computer outline",
         selected: false,
-        cost: 100
+        cost: 100,
       },
       {
         id: 2,
@@ -112,7 +126,7 @@ const softwareQuestions = [
         icon: iphone,
         iconAlt: "outline of iphone",
         selected: false,
-        cost: 100
+        cost: 100,
       },
       {
         id: 3,
@@ -121,10 +135,10 @@ const softwareQuestions = [
         icon: android,
         iconAlt: "outlines of android phone",
         selected: false,
-        cost: 100
-      }
+        cost: 100,
+      },
     ],
-    active: true
+    active: true,
   },
   {
     id: 3,
@@ -138,7 +152,7 @@ const softwareQuestions = [
         icon: camera,
         iconAlt: "camera outline",
         selected: false,
-        cost: 25
+        cost: 25,
       },
       {
         id: 2,
@@ -147,7 +161,7 @@ const softwareQuestions = [
         icon: gps,
         iconAlt: "gps pin",
         selected: false,
-        cost: 25
+        cost: 25,
       },
       {
         id: 3,
@@ -156,10 +170,10 @@ const softwareQuestions = [
         icon: upload,
         iconAlt: "outline of cloud with arrow pointing up",
         selected: false,
-        cost: 25
-      }
+        cost: 25,
+      },
     ],
-    active: false
+    active: false,
   },
   {
     id: 4,
@@ -173,7 +187,7 @@ const softwareQuestions = [
         icon: users,
         iconAlt: "outline of a person with a plus sign",
         selected: false,
-        cost: 25
+        cost: 25,
       },
       {
         id: 2,
@@ -182,7 +196,7 @@ const softwareQuestions = [
         icon: biometrics,
         iconAlt: "fingerprint",
         selected: false,
-        cost: 25
+        cost: 25,
       },
       {
         id: 3,
@@ -191,10 +205,10 @@ const softwareQuestions = [
         icon: bell,
         iconAlt: "outline of a bell",
         selected: false,
-        cost: 25
-      }
+        cost: 25,
+      },
     ],
-    active: false
+    active: false,
   },
   {
     id: 5,
@@ -208,7 +222,7 @@ const softwareQuestions = [
         icon: info,
         iconAlt: "'i' inside a circle",
         selected: false,
-        cost: 25
+        cost: 25,
       },
       {
         id: 2,
@@ -217,7 +231,7 @@ const softwareQuestions = [
         icon: customized,
         iconAlt: "two toggle switches",
         selected: false,
-        cost: 50
+        cost: 50,
       },
       {
         id: 3,
@@ -226,10 +240,10 @@ const softwareQuestions = [
         icon: data,
         iconAlt: "outline of line graph",
         selected: false,
-        cost: 100
-      }
+        cost: 100,
+      },
     ],
-    active: false
+    active: false,
   },
   {
     id: 6,
@@ -243,7 +257,7 @@ const softwareQuestions = [
         icon: person,
         iconAlt: "person outline",
         selected: false,
-        cost: 1
+        cost: 1,
       },
       {
         id: 2,
@@ -252,7 +266,7 @@ const softwareQuestions = [
         icon: persons,
         iconAlt: "outline of two people",
         selected: false,
-        cost: 1.25
+        cost: 1.25,
       },
       {
         id: 3,
@@ -261,13 +275,12 @@ const softwareQuestions = [
         icon: people,
         iconAlt: "outline of three people",
         selected: false,
-        cost: 1.5
-      }
+        cost: 1.5,
+      },
     ],
-    active: false
-  }
+    active: false,
+  },
 ];
-
 
 const websiteQuestions = [
   { ...defaultQuestions[0], active: false },
@@ -283,7 +296,7 @@ const websiteQuestions = [
         icon: info,
         iconAlt: "person outline",
         selected: false,
-        cost: 100
+        cost: 100,
       },
       {
         id: 2,
@@ -292,7 +305,7 @@ const websiteQuestions = [
         icon: customized,
         iconAlt: "outline of two people",
         selected: false,
-        cost: 200
+        cost: 200,
       },
       {
         id: 3,
@@ -301,19 +314,34 @@ const websiteQuestions = [
         icon: globe,
         iconAlt: "outline of three people",
         selected: false,
-        cost: 250
-      }
+        cost: 250,
+      },
     ],
-    active: true
-  }
+    active: true,
+  },
 ];
-
 
 const Estimate = () => {
   const classes = useStyles();
   const theme = useTheme();
 
-  const [ questions, setQuestions ] = useState(softwareQuestions)
+  const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
+
+  const [questions, setQuestions] = useState(defaultQuestions);
+
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const [name, setName] = useState("");
+
+  const [email, setEmail] = useState("");
+  const [emailHelper, setEmailHelper] = useState("");
+
+  const [phone, setPhone] = useState("");
+  const [phoneHelper, setPhoneHelper] = useState("");
+
+  const [message, setMessage] = useState("");
+
+  const [ total, setTotal] = useState(0);
 
   const defaultOptions = {
     loop: false,
@@ -324,62 +352,135 @@ const Estimate = () => {
     },
   };
 
-  const nextQuestion = ()=> {
-    const newQuestions = cloneDeep(questions)
-    const currentlyActive = newQuestions.filter(question => question.active)
-    const activeIndex = currentlyActive[0].id - 1
-    const nextIndex = activeIndex + 1
+  const nextQuestion = () => {
+    const newQuestions = cloneDeep(questions);
+    const currentlyActive = newQuestions.filter((question) => question.active);
+    const activeIndex = currentlyActive[0].id - 1;
+    const nextIndex = activeIndex + 1;
 
-    newQuestions[activeIndex] = {...currentlyActive[0], active: false}
-    newQuestions[nextIndex] = {...newQuestions[nextIndex], active: true}
+    newQuestions[activeIndex] = { ...currentlyActive[0], active: false };
+    newQuestions[nextIndex] = { ...newQuestions[nextIndex], active: true };
 
     setQuestions(newQuestions);
-
-  }
+  };
 
   const previousQuestion = () => {
-    const newQuestions = cloneDeep(questions)
-    const currentlyActive = newQuestions.filter(question => question.active)
-    const activeIndex = currentlyActive[0].id - 1
-    const nextIndex = activeIndex - 1
+    const newQuestions = cloneDeep(questions);
+    const currentlyActive = newQuestions.filter((question) => question.active);
+    const activeIndex = currentlyActive[0].id - 1;
+    const nextIndex = activeIndex - 1;
 
-    newQuestions[activeIndex] = {...currentlyActive[0], active: false}
-    newQuestions[nextIndex] = {...newQuestions[nextIndex], active: true}
+    newQuestions[activeIndex] = { ...currentlyActive[0], active: false };
+    newQuestions[nextIndex] = { ...newQuestions[nextIndex], active: true };
 
     setQuestions(newQuestions);
-
-  }
+  };
 
   const navigationPreviousDisabled = () => {
-    const currentlyActive = newQuestions.filter(question => question.active)
+    const currentlyActive = newQuestions.filter((question) => question.active);
 
-    if (currentlyActive[0].id === 1){
-      return true
-    }else{
-      return false
+    if (currentlyActive[0].id === 1) {
+      return true;
+    } else {
+      return false;
     }
-  }
+  };
 
-  const navigationNextDisabled = () =>{
-    const currentlyActive = newQuestions.filter(question => question.active)
-    if(currentlyActive[0].id === questions[questions.length-1]){
-      return true
-    }else {
-      return false
+  const navigationNextDisabled = () => {
+    const currentlyActive = newQuestions.filter((question) => question.active);
+    if (currentlyActive[0].id === questions[questions.length - 1]) {
+      return true;
+    } else {
+      return false;
     }
-  }
+  };
 
-  const handleSelect = id => {
+  const handleSelect = (id) => {
     const newQuestions = cloneDeep(questions);
-    const currentlyActive = newQuestions.filter(question => question.active);
+    const currentlyActive = newQuestions.filter((question) => question.active);
     const activeIndex = currentlyActive[0].id - 1;
 
-    const newSelected = newQuestions[activeIndex].options[id-1]
-    newSelected.selected = !newSelected.selected
+    const newSelected = newQuestions[activeIndex].options[id - 1];
+    const previousSelected = currentlyActive[0].options.filter(
+      (option) => option.selected
+    );
 
-    setQuestions(newQuestions)
+    switch (currentlyActive[0].subtitle) {
+      case "Select one.":
+        if (previousSelected[0]) {
+          previousSelected[0].selected = !previousSelected[0].selected;
+        }
+        newSelected.selected = !newSelected.selected;
+        break;
+      default:
+        newSelected.selected = !newSelected.selected;
+        break;
+    }
 
+    switch (newSelected.title) {
+      case "Custom Software Development":
+        setQuestions(softwareQuestions);
+        break;
+      case "iOS/Android App Development":
+        setQuestions(softwareQuestions);
+        break;
+      case "Website Development":
+        setQuestions(websiteQuestions);
+        break;
+      default:
+        setQuestions(newQuestions);
+    }
+  };
 
+  const onChange = (e) => {
+    let isValid;
+
+    switch (e.target.id) {
+      case "email":
+        setEmail(e.target.value);
+        isValid = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
+          e.target.value
+        );
+        if (!isValid) {
+          setEmailHelper("Invalid email");
+        } else {
+          setEmailHelper("");
+        }
+        break;
+      case "phone":
+        setPhone(e.target.value);
+        isValid = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(
+          e.target.value
+        );
+        if (!isValid) {
+          setPhoneHelper("Invalid Phone");
+        } else {
+          setPhoneHelper("");
+        }
+        break;
+      default:
+        break;
+    }
+  };
+
+  const getTotal = () => {
+    let cost = 0;
+
+    const selections = questions.map(question => question.options.filter(option=> option.selected)).filter(question=> question.length>0);
+
+    selections.map(options => options.map(option => cost += option.cost))
+
+    if(questions.length > 2 ){
+      const userCost = questions.filter(
+        question => question.title === "How many users do you expect?").map(
+          question=> question.options.filter(
+            option=> option.selected))[0][0].cost
+
+      cost -= userCost
+      cost *= userCost
+    }
+
+    setTotal(cost)
   }
 
   return (
@@ -416,7 +517,7 @@ const Estimate = () => {
                     fontSize: "2.25rem",
                     marginBottom: "2.5em",
                     marginTop: "5em",
-                    lineHeight: 1.25
+                    lineHeight: 1.25,
                   }}
                   gutterBottom
                 >
@@ -433,12 +534,20 @@ const Estimate = () => {
               </Grid>
               <Grid item container>
                 {question.options.map((option) => (
-                  <Grid item container direction="column" md component={Button}
-                    onClick={()=> handleSelect(option.id)}
+                  <Grid
+                    item
+                    container
+                    direction="column"
+                    md
+                    component={Button}
+                    onClick={() => handleSelect(option.id)}
                     style={{
-                      display: "grid", 
-                      textTransform: "none", 
-                      backgroundColor: option.selected ? theme.palette.common.orange : null }}
+                      display: "grid",
+                      textTransform: "none",
+                      backgroundColor: option.selected
+                        ? theme.palette.common.orange
+                        : null,
+                    }}
                   >
                     <Grid item style={{ maxWidth: "14em" }}>
                       <Typography
@@ -471,26 +580,109 @@ const Estimate = () => {
           style={{ width: "18em", marginTop: "3em" }}
         >
           <Grid item>
-            <IconButton disabled={navigationPreviousDisabled()} onClick={previousQuestion}>
-              <img 
-                src={navigationPreviousDisabled() ? backArrowDisabled :backArrow} 
-                alt="Previous question" />
+            <IconButton
+              disabled={navigationPreviousDisabled()}
+              onClick={previousQuestion}
+            >
+              <img
+                src={
+                  navigationPreviousDisabled() ? backArrowDisabled : backArrow
+                }
+                alt="Previous question"
+              />
             </IconButton>
           </Grid>
           <Grid item>
-            <IconButton disabled={navigationNextDisabled()} onClick={nextQuestion}>
-              <img 
-                src={navigationNextDisabled() ? forwardArrowDisabled : backArrow} 
-                alt="Next Question" />
+            <IconButton
+              disabled={navigationNextDisabled()}
+              onClick={nextQuestion}
+            >
+              <img
+                src={
+                  navigationNextDisabled() ? forwardArrowDisabled : backArrow
+                }
+                alt="Next Question"
+              />
             </IconButton>
           </Grid>
         </Grid>
         <Grid item>
-          <Button variant="container" className={classes.estimateButton}>
+          <Button
+            variant="container"
+            className={classes.estimateButton}
+            onClick={() => {setDialogOpen(true); getTotal()}}
+          >
             Get Estimate
           </Button>
         </Grid>
       </Grid>
+      <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
+        <Grid container justify="center">
+          <Grid item>
+            <Typography variant="h2" align="center">
+              Estimate
+            </Typography>
+          </Grid>
+        </Grid>
+        <DialogContent>
+          <Grid container>
+            <Grid item container direction="column">
+              <Grid item style={{ marginBottom: "0.5em" }}>
+                <TextField
+                  label="Name"
+                  id="name"
+                  fullWidth
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </Grid>
+              <Grid item style={{ marginBottom: "0.5em" }}>
+                <TextField
+                  label="Email"
+                  error={emailHelper.length !== 0}
+                  id="email"
+                  helperText={emailHelper}
+                  fullWidth
+                  value={email}
+                  onChange={onChange}
+                />
+              </Grid>
+              <Grid item style={{ marginBottom: "0.5em" }}>
+                <TextField
+                  label="Phone"
+                  id="phone"
+                  error={phoneHelper.length !== 0}
+                  helperText={phoneHelper}
+                  fullWidth
+                  value={phone}
+                  onChange={onChange}
+                />
+              </Grid>
+            </Grid>
+            <Grid item style={{ maxWidth: matchesXS ? "100%" : "20em" }}>
+              <TextField
+                value={message}
+                className={classes.message}
+                InputProps={{ disableUnderline: true }}
+                fullWidth
+                id="message"
+                multiline
+                rows={10}
+                onChange={(e) => setMessage(e.target.value)}
+              />
+            </Grid>
+            <Grid item>
+              <Typography variant="body1" paragraph>
+                  We can create this digital solution for an estimated
+              </Typography>
+              <Typography variant="body1" paragraph>
+                Fill out your name, phone number, and email. Place your request with details
+                moving forward and a final price.
+              </Typography>
+            </Grid>
+          </Grid>
+        </DialogContent>
+      </Dialog>
     </Grid>
   );
 };
