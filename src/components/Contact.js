@@ -292,7 +292,7 @@ const Contact = ({ setValue }) => {
                 />
               </Grid>
             </Grid>
-            <Grid item style={{ maxWidth: matchesXS ? "100%" : "20em" }}>
+            <Grid item style={{ width: matchesSM ? "100%" : "20em" }}>
               <TextField
                 value={message}
                 className={classes.message}
@@ -324,7 +324,7 @@ const Contact = ({ setValue }) => {
       </Grid>
       <Dialog
         open={open}
-        fullScreen={matchesXS}
+        fullScreen={matchesSM}
         style={{ zIndex: 1302 }}
         onClose={() => setOpen(false)}
         PaperProps={{
@@ -336,15 +336,15 @@ const Contact = ({ setValue }) => {
               : matchesSM
               ? "5em"
               : matchesMD
-              ? "10em"
-              : "20em",
+              ? "15em"
+              : "25em",
             paddingRight: matchesXS
               ? "0"
               : matchesSM
               ? "5em"
               : matchesMD
-              ? "10em"
-              : "20em",
+              ? "15em"
+              : "25em",
           },
         }}
       >
@@ -359,7 +359,7 @@ const Contact = ({ setValue }) => {
               item
               container
               direction="column"
-              style={{ maxWidth: "20em" }}
+              style={{ width: "20em" }}
             >
               <Grid item style={{ marginBottom: "0.5em" }}>
                 <TextField
@@ -393,7 +393,7 @@ const Contact = ({ setValue }) => {
                 />
               </Grid>
             </Grid>
-            <Grid item style={{ maxWidth: "20em" }}>
+            <Grid item style={{ width: "20em" }}>
               <TextField
                 value={message}
                 className={classes.message}

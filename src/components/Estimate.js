@@ -433,12 +433,30 @@ const Estimate = () => {
     switch (newSelected.title) {
       case "Custom Software Development":
         setQuestions(softwareQuestions);
+        setService(newSelected.title);
+        setPlatforms([]);
+        setFeatures([]);
+        setCustomFeatures("");
+        setCategory("");
+        setUsers("");
         break;
       case "iOS/Android App Development":
         setQuestions(softwareQuestions);
+        setService(newSelected.title);
+        setPlatforms([]);
+        setFeatures([]);
+        setCustomFeatures("");
+        setCategory("");
+        setUsers("");
         break;
       case "Website Development":
         setQuestions(websiteQuestions);
+        setService(newSelected.title);
+        setPlatforms([]);
+        setFeatures([]);
+        setCustomFeatures("");
+        setCategory("");
+        setUsers("");
         break;
       default:
         setQuestions(newQuestions);
@@ -494,12 +512,112 @@ const Estimate = () => {
           question.options.filter((option) => option.selected)
         )[0][0].cost;
 
+      setUsers(userCost.title)
+
       cost -= userCost;
       cost *= userCost;
     }
 
     setTotal(cost);
   };
+
+  const getPlatforms = () => {
+    let newPlatforms = []
+
+    if(questions.length > 2) {
+      questions
+        .filter(question => question.title === "Which platforms do you need supported?")
+        .map(question=> question.options
+        .filter(option=> option.selected))[0]
+        .map(option => newPlatforms.push(option.title));
+    }
+  }
+
+  const getFeatures = () => {
+    let newFeatures = []
+
+    if(questions.length > 2) {
+      questions
+        .filter(question => question.title === "Which features do you expect to see?")
+        .map(question=> question.options
+        .filter(option=> option.selected))[0]
+        .map(option => option
+        .map(newFeature => newFeatures.push(newFeature.title)));
+    }
+    setFeatures(newFeatures)
+  }
+
+  const getCategory = () => {
+    if(questions.length === 2){
+      const newCategory = questions
+        .filter(question => question.title === "Which type of website are you wanting?")[0].options
+        .filter(option => option.selected)[0].title
+
+        setCategory(newCategory)
+    }
+  }
+
+  const getCustomFeatures = () => {
+    if(questions.length > 2) {
+      const newCustomFeatures = questions
+        .filter(question => question.title === "What type of custom features do you expect to need?")
+        .map(question =>question.options
+        .filter(option => option.selected))[0][0].title
+
+        setCustomFeatures(newCustomFeatures)
+    }
+  }
+
+  const softwareSelection = (
+    <Grid container direction="column">
+    <Grid item container alignItems="center">
+      <Grid item>
+        <img src={check} alt="checkmark"/>
+      </Grid>
+      <Grid item>
+        <Typography variant="body1">
+          You want {service}
+          {platforms.length > 0 ? "filler, cuz I'm not putting in 5 ternary statements here" :null}
+        </Typography>
+      </Grid>
+    </Grid>
+    <Grid item container alignItems="center" style={{marginBottom: "1.25em"}}>
+      <Grid item xs={2}>
+        <img src={check} alt="checkmark"/>
+      </Grid>
+      <Grid item xs={10}>
+        <Typography variant="body1">
+          More ternary nonsense
+        </Typography>
+      </Grid>
+    </Grid>
+    <Grid item container alignItems="center">
+      <Grid item xs={2}>
+        <img src={check} alt="checkmark"/>
+      </Grid>
+      <Grid item xs={10}>
+        <Typography variant="body1">
+          The custom features will be of {customFeatures.toLowerCase()}
+        </Typography>
+      </Grid>
+    </Grid>
+  </Grid>
+  )
+
+  const websiteSelection = (
+    <Grid container direction="column">
+    <Grid item container alignItems="center" style={{marginBottom: "1.25em"}}>
+      <Grid item xs={2}>
+        <img src={check} alt="checkmark"/>
+      </Grid>
+      <Grid item xs={10}>
+        <Typography variant="body1">
+          You want {category === "Basic" ? "a basic website" : `an ${category} Website`}
+        </Typography>
+      </Grid>
+    </Grid>
+  </Grid>
+  )
 
   return (
     <Grid container direction="row">
@@ -631,13 +749,19 @@ const Estimate = () => {
             onClick={() => {
               setDialogOpen(true);
               getTotal();
+              getPlatforms();
             }}
           >
             Get Estimate
           </Button>
         </Grid>
       </Grid>
-      <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
+      <Dialog 
+        open={dialogOpen} 
+        onClose={() => setDialogOpen(false)} 
+        fullWidth
+        maxWidth="lg"
+        >
         <Grid container justify="center">
           <Grid item>
             <Typography variant="h2" align="center">
@@ -646,8 +770,8 @@ const Estimate = () => {
           </Grid>
         </Grid>
         <DialogContent>
-          <Grid container>
-            <Grid item container direction="column" md={7}>
+          <Grid container justify="space-around">
+            <Grid item container direction="column" md={7} style={{maxWidth: "20em"}}>
               <Grid item style={{ marginBottom: "0.5em" }}>
                 <TextField
                   label="Name"
@@ -704,34 +828,9 @@ const Estimate = () => {
                 </Typography>
               </Grid>
             </Grid>
-            <Grid item container direction="column" md={5}>
+            <Grid item container direction="column" md={5} style={{maxWidth: "30em"}}>
               <Grid item>
-                <Grid container direction="column">
-                  <Grid item container alignItems="center">
-                    <Grid item>
-                      <img src={check} alt="checkmark"/>
-                    </Grid>
-                    <Grid item>
-                      <Typography variant="body1">First Options Check</Typography>
-                    </Grid>
-                  </Grid>
-                  <Grid item container alignItems="center">
-                    <Grid item>
-                      <img src={check} alt="checkmark"/>
-                    </Grid>
-                    <Grid item>
-                      <Typography variant="body1">Second Options Check</Typography>
-                    </Grid>
-                  </Grid>
-                  <Grid item container alignItems="center">
-                    <Grid item>
-                      <img src={check} alt="checkmark"/>
-                    </Grid>
-                    <Grid item>
-                      <Typography variant="body1">Third Options Check</Typography>
-                    </Grid>
-                  </Grid>
-                </Grid>
+                {questions.length > 2 ? softwareSelection : websiteSelection}
               </Grid>
               <Grid item>
                 <Button variant="contained" className={classes.estimateButton}>
