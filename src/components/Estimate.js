@@ -60,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
   message: {
     border: `2px solid ${theme.palette.common.blue}`,
     marginTop: "5em",
+    marginBottom: "2em",
     borderRadius: 5,
   },
   specialText: {
@@ -332,6 +333,7 @@ const Estimate = () => {
   const theme = useTheme();
 
   const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
+  const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
 
   const [questions, setQuestions] = useState(defaultQuestions);
 
@@ -621,13 +623,13 @@ const Estimate = () => {
 
   return (
     <Grid container direction="row">
-      <Grid item container direction="column" lg>
-        <Grid item style={{ marginTop: "2em", marginLeft: "5em" }}>
-          <Typography variant="h2">Estimate</Typography>
+      <Grid item container direction="column" lg alignItems={matchesMD ? "center" : undefined}>
+        <Grid item style={{ marginTop: "2em", marginLeft: matchesMD ? 0 : "5em" }}>
+          <Typography variant="h2" align={ matchesMD ? "center" : undefined}>Estimate</Typography>
         </Grid>
         <Grid
           item
-          style={{ marginRight: "10em", maxWidth: "50em", marginTop: "7.5em" }}
+          style={{ marginRight: matchesMD ? 0 : "10em", maxWidth: "50em", marginTop: "7.5em" }}
         >
           <Lottie options={defaultOptions} height="100%" width="100%" />
         </Grid>
@@ -763,7 +765,7 @@ const Estimate = () => {
         maxWidth="lg"
         >
         <Grid container justify="center">
-          <Grid item>
+          <Grid item style={{ marginTop: "1em", marginBottom: "1em" }}>
             <Typography variant="h2" align="center">
               Estimate
             </Typography>
