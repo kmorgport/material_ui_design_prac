@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from 'axios'
 import Lottie from "react-lottie";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import {
@@ -10,7 +11,9 @@ import {
   DialogContent,
   TextField,
   useMediaQuery,
-  Hidden
+  Hidden,
+  Snackbar,
+  CircularProgress
 } from "@material-ui/core";
 import { cloneDeep } from "lodash";
 
@@ -341,6 +344,14 @@ const Estimate = () => {
 
   const [dialogOpen, setDialogOpen] = useState(false);
 
+  const [loading, setLoading] = useState(false);
+
+  const [ alert, setAlert ] = useState({ 
+    open: false,
+    message: "",
+    backgroundColor: ""
+  })
+
   const [name, setName] = useState("");
 
   const [email, setEmail] = useState("");
@@ -561,6 +572,61 @@ const Estimate = () => {
     }
   }
 
+  const sendEstimate = async () => {
+
+    try {
+      const resp = await axios.get(
+        `https://us-central1-material-ui-prac.cloudfunctions.net/sendMail`,
+        {
+          params: {
+            name,
+            email,
+            phone,
+            message,
+            total,
+            service,
+            platforms, 
+            features,
+            customFeatures,
+            users
+          }
+        }
+      );
+      setLoading(false);
+      setAlert({
+        open: true,
+        message: "Estimate placed successfully",
+        backgroundColor: "#4BB543"
+      })
+      console.log(resp.data);
+    } catch (err) {
+      setLoading(false);
+      setAlert({
+        open: true,
+        message: "Something went wrong, please try again",
+        backgroundColor: "#FF3232"
+      })
+      console.log(err);
+    }
+
+  }
+
+  const estimateDisabled = () => {
+
+    const emptySelections = questions.map(question => 
+      question.options.
+      filter(option=>option.selected)).
+      filter(question => question.length == 0)
+
+    if(questions.length === 2){
+      if(emptySelections.length === 1){
+        return false
+      }
+    }else if(questions.length){
+      return true
+    }
+  }
+
   const getCustomFeatures = () => {
     if(questions.length > 2) {
       const newCustomFeatures = questions
@@ -753,6 +819,7 @@ const Estimate = () => {
         <Grid item>
           <Button
             variant="container"
+            disabled={estimateDisabled()}
             className={classes.estimateButton}
             onClick={() => {
               setDialogOpen(true);
@@ -856,9 +923,15 @@ const Estimate = () => {
                 </Grid>
               </Hidden>
               <Grid item>
-                <Button variant="contained" className={classes.estimateButton}>
+                <Button 
+                  variant="contained" 
+                  className={classes.estimateButton} 
+                  onClick={sendEstimate}
+                >
+                  {loading ? <CircularProgress/> : <React.Fragment>
                   Place Request
                   <img src={send} alt="paper airplane" style={{marginLeft: "0.5em"}}/>
+                  </React.Fragment>}
                 </Button>
               </Grid>
               <Hidden mdUp>
@@ -870,6 +943,14 @@ const Estimate = () => {
           </Grid>
         </DialogContent>
       </Dialog>
+      <Snackbar 
+        open={ alert.open } 
+        message={ alert.message} 
+        ContentProps={{style: {backgroundColor: alert.backgroundColor}}} 
+        anchorOrigin={{vertical: "top", horizontal: "center"}}
+        onClose={()=> setAlert({...alert, open: false})}
+        autoHideDuration={4000}
+      />
     </Grid>
   );
 };
